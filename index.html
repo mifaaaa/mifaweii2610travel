@@ -223,38 +223,38 @@
       const cur = ref(0);
       const pk = reactive({});
 
-      // 行程資料
+      // 行程資料 (修正按鈕陣列位置: [時間, 標題, 說明, 按鈕或地圖位置, 費用])
       const days = [
         {d:"10/9 五",t:"台北 → 東京",e:4500,i:[
           ["12:30","計程車 → 桃園機場 T2","已預約 55688，約 50–60 分","桃園國際機場第二航廈","NT$950 已付"],
           ["13:30","T2 報到托運","CI106 16:30 起飛｜訂位代號 EYGC8X｜機票號碼 297 2425346927",[["🎫 Mifa 機票","https://drive.google.com/file/d/1ZpBJGt3AVilBCebCHvB7U-ZIqnuEgnkU/view?usp=sharing","r"],["🎫 Weii 機票","https://drive.google.com/file/d/1lt-Sp-Qt3ySFJv4YJZVMEB6oxwNhZenf/view?usp=sharing","r"]]],
           ["20:55","抵達成田 T2、入境","入境約 45–60 分","成田國際機場第2航廈"],
           ["22:00","成田 T2 → 錦糸町（兩種方式擇一）","① 京成 Access Express → 押上 → 半藏門線，約 75–90 分，先查末班車。② 機場巴士：成田直達錦糸町無巴士，可搭「東京シャトル」到東京站（約 ¥1,300），再轉 JR 總武快速約 10 分到錦糸町",[["🚆 京成 Access Express","https://maps.app.goo.gl/6ZXdDjkR63xLUjBG8","r"],["🚌 機場巴士路線","https://www.google.com/maps/dir/?api=1&origin=成田空港第2ターミナル&destination=相鉄フレッサイン東京錦糸町&travelmode=transit",""]],"電車約 ¥1,500/人"],
-          ["23:30","入住 相鐵 Fresa Inn 錦糸町","東京都墨田区江東橋2-18-7｜JR 錦糸町站南口步行約 3 分｜入住 15:00／退房 11:00","相鉄フレッサイン東京錦糸町 東京都墨田区江東橋2-18-7",[["Klook 憑證","https://drive.google.com/file/d/1P7kCXMRmHaL5Dk2fVURLi_5lbClfkGP4/view?usp=sharing","r"]]]
+          ["23:30","入住 相鐵 Fresa Inn 錦糸町","東京都墨田区江東橋2-18-7｜JR 錦糸町站南口步行約 3 分｜入住 15:00／退房 11:00",[["🎫 Klook 憑證","https://drive.google.com/file/d/1P7kCXMRmHaL5Dk2fVURLi_5lbClfkGP4/view?usp=sharing","r"],["📍 導航","相鉄フレッサイン東京錦糸町 東京都墨田区江東橋2-18-7",""]]]
         ]},
         {d:"10/10 六",t:"東京晨跑 / 史努比博物館",e:27000,i:[
           ["07:15","錦糸町 → 東京站（JR 總武快速）","約 10 分",MAPS_BASE+"C13sczxtSBajR9jM8","約 ¥170/人"],
           ["07:45","ASICS RUN TOKYO MARUNOUCHI 皇居晨跑","約 5 km＋淋浴","ASICS RUN TOKYO MARUNOUCHI"],
           ["09:30","早餐：東京拉麵街或丸之內咖啡廳","","東京ラーメンストリート","約 ¥2,000"],
           ["10:00","東京 → 澀谷 → 田園都市線 → 南町田","約 65 分",MAPS_BASE+"YvVAZT2cRjJe7dZs5","約 ¥550/人"],
-          ["11:30","史努比博物館","スヌーピーミュージアム 町田","已付 NT$880",[["Kkday 憑證","https://drive.google.com/file/d/1RszsEse4ld-buooGcarBhmOXRbI6o9us/view?usp=sharing","r"]]],
-          ["14:15","PEANUTS Cafe 下午茶","約 ¥2,500",[["預約頁面","https://booking.ebica.jp/webrsv/booked/info/472319193?site_code=e014001307&shop_id=22192&auth_key=34f703faf4b54327ff551d016ad40e105628f2dddee14527da0d775d43c4fb27d299e5b40259ae5fff3534f1a51d1e7ec0f920d5f8c270ffe0d1f22984a87ee0","r"]]],
+          ["11:30","史努比博物館","スヌーピーミュージアム 町田",[["🎫 Kkday 憑證","https://drive.google.com/file/d/1RszsEse4ld-buooGcarBhmOXRbI6o9us/view?usp=sharing","r"]],"已付 NT$880"],
+          ["14:15","PEANUTS Cafe 下午茶","",[["預約頁面","https://booking.ebica.jp/webrsv/booked/info/472319193?site_code=e014001307&shop_id=22192&auth_key=34f703faf4b54327ff551d016ad40e105628f2dddee14527da0d775d43c4fb27d299e5b40259ae5fff3534f1a51d1e7ec0f920d5f8c270ffe0d1f22984a87ee0","r"]],"約 ¥2,500"],
           ["15:30","逛 Grandberry Park 商場","","南町田グランベリーパーク"],
           ["17:00","回澀谷自由逛","選項：澀谷 SKY 看夜景（另購票）","SHIBUYA SKY"],
-          ["20:00","晚餐：烤肉激素 新井屋 Hanare","with張乾 預約ID: RNGZVN",MAPS_BASE+"gF3q2VYCD7D9GPaz5","約 ¥14,000",[["預約連結","https://www.tablecheck.com/zh-TW/reservation/RNGZVN","r"]]],
+          ["20:00","晚餐：烤肉激素 新井屋 Hanare","with張乾 預約ID: RNGZVN",[["預約連結","https://www.tablecheck.com/zh-TW/reservation/RNGZVN","r"],["📍 導航",MAPS_BASE+"gF3q2VYCD7D9GPaz5",""]],"約 ¥14,000"]
           ["22:00","澀谷 → 錦糸町（半藏門線）回飯店","約 20 分",MAPS_BASE+"xPGcDREthQXhSW7x7","約 ¥280/人"]
         ]},
         {d:"10/11 日",t:"池袋 → 出雲",e:12000,i:[
           ["09:30","退房，錦糸町 → 池袋，行李寄置物櫃","約 35 分",MAPS_BASE+"W2wZTgiiM75XevDYA","櫃約 ¥600"],
-          ["10:30","池袋 Sunshine City","水族館／寶可夢中心／展望台擇一","サンシャインシティ","門票 ¥1,000–2,600"],
+          ["10:30","池袋 Sunshine City","吉伊卡哇快閃店／keroro／美金濃泳具","サンシャインシティ"],
           ["12:30","午餐：Sunshine City 美食街","","","約 ¥3,000"],
           ["14:15","池袋 → 羽田機場 T1（山手線→品川→京急）","約 55 分",MAPS_BASE+"dH2RWsrYW7i4QMcf8","約 ¥600/人"],
-          ["15:30","羽田 T1 南翼 JAL 報到","注意是第 1 航廈，不是第 2","羽田空港第1ターミナル"],
+          ["15:30","羽田 T1 南翼 JAL 報到","訂位編號 EI2GF8，第 1 航廈","羽田空港第1ターミナル"],
           ["16:55","JAL 羽田 → 出雲，18:25 抵達","已付 NT$10,486","出雲縁結び空港"],
           ["19:00","機場巴士 → 出雲市站","約 25–30 分，約 ¥630/人",MAPS_BASE+"sq7XJ6ftJ9uN3qAo9"],
           ["20:00","入住 出雲 Dormy Inn，晚餐在市站周邊","","ドーミーイン出雲","餐約 ¥6,000"],
           ["21:30","夜鳴拉麵、大浴場","時間依館方"]
-        ],w:"10/11 17:00 開幕式在出雲市民會館，預計 18:25 抵達會錯過。"},
+        ]},
         {d:"10/12 一",t:"出雲驛傳 ⭐",e:14000,i:[
           ["07:00","飯店 → 出雲大社","賽事管制可能繞路；約 25–35 分",MAPS_BASE+"aiAioyKsn1zNNMz88","約 ¥450/人"],
           ["08:00","勢溜（正面鳥居前）卡位","起點人潮多，早到","出雲大社 正面鳥居 勢溜"],
@@ -272,7 +272,7 @@
           ["09:15","松江城","Lake Line 巴士或步行 20 分；天守約 ¥680/人","松江城"],
           ["11:30","午餐：松江站周邊","蕎麥／宍道湖鰻魚飯","松江駅 ランチ","約 ¥4,000"],
           ["12:45","JR 回出雲市站 → 巴士到出雲機場","12:45 前務必離開松江","出雲縁結び空港","約 ¥1,500/人"],
-          ["14:30","機場報到","JAL 16:00 → 16:45 抵伊丹，已付 NT$6,970"],
+          ["14:30","機場報到","JAL 16:00 → 16:45 抵伊丹，訂位編號 DNEERB，已付 NT$6,970"],
           ["17:30","伊丹 → 心齋橋／四橋","利木津巴士或單軌＋阪急＋地鐵，約 60–70 分","Via Inn Prime Shinsaibashi Yotsubashi","約 ¥900/人"],
           ["19:00","橘街（堀江）晚餐／咖啡","","橘通り 堀江 大阪","約 ¥6,000"]
         ]},
