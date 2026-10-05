@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>出雲驛傳 8 日旅行 App (Vue3 版)</title>
+  <!-- 引入 Vue 3 CDN (全域版本，更穩定) -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <style>
     :root {
       --bg: #a9c9d3; --panel: #fdf1de; --fg: #4a3a2c; --mut: #8a7560; --card: #fffaf1;
@@ -29,6 +31,7 @@
     html { scroll-padding-top: env(safe-area-inset-top, 0px); }
     body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.6 var(--hw); padding-bottom: 84px; }
     body:before { content: ""; position: fixed; inset: 0; background: var(--nz); opacity: .22; mix-blend-mode: multiply; pointer-events: none; z-index: 50; }
+    [v-cloak] { display: none !important; } /* 防止 Vue 未渲染前顯示插值圖樣 */
     header { position: relative; padding: 16px 18px; color: var(--hf); background: var(--bg); overflow: hidden; min-height: 120px; border-radius: 0 0 24px 20px/0 0 20px 24px; }
     header h1 { margin: 2px 0 0; font: 800 21px/1.3 var(--hw); letter-spacing: .08em; }
     header p { margin: 8px 0 0; font: 13px/1.5 var(--hw); }
@@ -70,7 +73,7 @@
 </head>
 <body>
 
-<div id="app">
+<div id="app" v-cloak>
   <!-- 頁首 -->
   <header>
     <h1>東京 ‧ 出雲驛傳 ‧ 大阪</h1>
@@ -162,8 +165,8 @@
       <p class="sub">勾選會存在這支手機的瀏覽器</p>
       <div v-for="(group, gi) in packing" :key="gi" class="card">
         <h3>{{ group[0] }}</h3>
-        <label v-for="(item, ii) in group.slice(1)" :key="ii" :class="{ d: pk[`${gi}-${ii}`] }">
-          <input type="checkbox" v-model="pk[`${gi}-${ii}`]">
+        <label v-for="(item, ii) in group.slice(1)" :key="ii" :class="{ d: pk[gi + '-' + ii] }">
+          <input type="checkbox" v-model="pk[gi + '-' + ii]">
           <span>{{ item }}</span>
         </label>
       </div>
@@ -209,11 +212,10 @@
   </nav>
 </div>
 
-<!-- 載入 Vue 3 (ES Module) -->
-<script type="module">
-  import { createApp, ref, reactive, computed, watch, onMounted } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
-
+<script>
   const MAPS_BASE = "https://maps.app.goo.gl/";
+
+  const { createApp, ref, reactive, computed, watch, onMounted } = Vue;
 
   createApp({
     setup() {
@@ -221,14 +223,14 @@
       const cur = ref(0);
       const pk = reactive({});
 
-      // 1. 行程資料
+      // 行程資料
       const days = [
         {d:"10/9 五",t:"台北 → 東京",e:4500,i:[
           ["12:30","計程車 → 桃園機場 T2","已預約 55688，約 50–60 分","桃園國際機場第二航廈","NT$950 已付"],
           ["13:30","T2 報到托運","CI106 16:30 起飛｜訂位代號 EYGC8X｜機票號碼 297 2425346927",[["🎫 Mifa 機票","https://drive.google.com/file/d/1ZpBJGt3AVilBCebCHvB7U-ZIqnuEgnkU/view?usp=sharing","r"],["🎫 Weii 機票","https://drive.google.com/file/d/1lt-Sp-Qt3ySFJv4YJZVMEB6oxwNhZenf/view?usp=sharing","r"]]],
           ["20:55","抵達成田 T2、入境","入境約 45–60 分","成田國際機場第2航廈"],
-          ["22:00","成田 T2 → 錦糸町（兩種方式擇一）","① 京成 Access Express → 押上 → 半藏門線，約 75–90 分，先查末班車。② 機場巴士：我沒查到成田直達錦糸町的巴士；確定有的是「東京シャトル」到東京站（約 ¥1,300，預約 ¥900，深夜早朝 ¥2,600），再轉 JR 總武快速約 10 分到錦糸町，請先確認班次",[["🚆 京成 Access Express","https://maps.app.goo.gl/6ZXdDjkR63xLUjBG8","r"],["🚌 機場巴士路線","https://www.google.com/maps/dir/?api=1&origin=成田空港第2ターミナル&destination=相鉄フレッサイン東京錦糸町&travelmode=transit",""]],"電車約 ¥1,500/人"],
-          ["23:30","入住 相鐵 Fresa Inn 錦糸町","〒130-0022 東京都墨田区江東橋2-18-7｜JR 錦糸町站南口步行約 3 分｜入住 15:00／退房 11:00","相鉄フレッサイン東京錦糸町 東京都墨田区江東橋2-18-7",[["Klook 憑證","https://drive.google.com/file/d/1P7kCXMRmHaL5Dk2fVURLi_5lbClfkGP4/view?usp=sharing","r"]]]
+          ["22:00","成田 T2 → 錦糸町（兩種方式擇一）","① 京成 Access Express → 押上 → 半藏門線，約 75–90 分，先查末班車。② 機場巴士：成田直達錦糸町無巴士，可搭「東京シャトル」到東京站（約 ¥1,300），再轉 JR 總武快速約 10 分到錦糸町",[["🚆 京成 Access Express","https://maps.app.goo.gl/6ZXdDjkR63xLUjBG8","r"],["🚌 機場巴士路線","https://www.google.com/maps/dir/?api=1&origin=成田空港第2ターミナル&destination=相鉄フレッサイン東京錦糸町&travelmode=transit",""]],"電車約 ¥1,500/人"],
+          ["23:30","入住 相鐵 Fresa Inn 錦糸町","東京都墨田区江東橋2-18-7｜JR 錦糸町站南口步行約 3 分｜入住 15:00／退房 11:00","相鉄フレッサイン東京錦糸町 東京都墨田区江東橋2-18-7",[["Klook 憑證","https://drive.google.com/file/d/1P7kCXMRmHaL5Dk2fVURLi_5lbClfkGP4/view?usp=sharing","r"]]]
         ]},
         {d:"10/10 六",t:"東京晨跑 / 史努比博物館",e:27000,i:[
           ["07:15","錦糸町 → 東京站（JR 總武快速）","約 10 分",MAPS_BASE+"C13sczxtSBajR9jM8","約 ¥170/人"],
@@ -239,7 +241,7 @@
           ["14:15","PEANUTS Cafe 下午茶","約 ¥2,500",[["預約頁面","https://booking.ebica.jp/webrsv/booked/info/472319193?site_code=e014001307&shop_id=22192&auth_key=34f703faf4b54327ff551d016ad40e105628f2dddee14527da0d775d43c4fb27d299e5b40259ae5fff3534f1a51d1e7ec0f920d5f8c270ffe0d1f22984a87ee0","r"]]],
           ["15:30","逛 Grandberry Park 商場","","南町田グランベリーパーク"],
           ["17:00","回澀谷自由逛","選項：澀谷 SKY 看夜景（另購票）","SHIBUYA SKY"],
-          ["20:00","晚餐：烤肉激素 新井屋 Hanare","with張乾 預約ID: RNGZVN ",MAPS_BASE+"gF3q2VYCD7D9GPaz5","約 ¥14,000",[["預約連結","https://www.tablecheck.com/zh-TW/reservation/RNGZVN","r"]]],
+          ["20:00","晚餐：烤肉激素 新井屋 Hanare","with張乾 預約ID: RNGZVN",MAPS_BASE+"gF3q2VYCD7D9GPaz5","約 ¥14,000",[["預約連結","https://www.tablecheck.com/zh-TW/reservation/RNGZVN","r"]]],
           ["22:00","澀谷 → 錦糸町（半藏門線）回飯店","約 20 分",MAPS_BASE+"xPGcDREthQXhSW7x7","約 ¥280/人"]
         ]},
         {d:"10/11 日",t:"池袋 → 出雲",e:12000,i:[
@@ -249,18 +251,18 @@
           ["14:15","池袋 → 羽田機場 T1（山手線→品川→京急）","約 55 分",MAPS_BASE+"dH2RWsrYW7i4QMcf8","約 ¥600/人"],
           ["15:30","羽田 T1 南翼 JAL 報到","注意是第 1 航廈，不是第 2","羽田空港第1ターミナル"],
           ["16:55","JAL 羽田 → 出雲，18:25 抵達","已付 NT$10,486","出雲縁結び空港"],
-          ["19:00","機場巴士 → 出雲市站","約 25–30 分，約 ¥630/人（待確認）；先查末班",MAPS_BASE+"sq7XJ6ftJ9uN3qAo9"],
+          ["19:00","機場巴士 → 出雲市站","約 25–30 分，約 ¥630/人",MAPS_BASE+"sq7XJ6ftJ9uN3qAo9"],
           ["20:00","入住 出雲 Dormy Inn，晚餐在市站周邊","","ドーミーイン出雲","餐約 ¥6,000"],
-          ["21:30","夜鳴きそば、大浴場","時間依館方"]
-        ],w:"10/11 17:00 開幕式在出雲市民會館，你 18:25 才抵達，會錯過。"},
+          ["21:30","夜鳴拉麵、大浴場","時間依館方"]
+        ],w:"10/11 17:00 開幕式在出雲市民會館，預計 18:25 抵達會錯過。"},
         {d:"10/12 一",t:"出雲驛傳 ⭐",e:14000,i:[
           ["07:00","飯店 → 出雲大社","賽事管制可能繞路；約 25–35 分",MAPS_BASE+"aiAioyKsn1zNNMz88","約 ¥450/人"],
           ["08:00","勢溜（正面鳥居前）卡位","起點人潮多，早到","出雲大社 正面鳥居 勢溜"],
           ["09:10","第 38 回出雲驛傳開跑","6 區間 45.1 km，終點出雲巨蛋，約 11:30 結束"],
-          ["09:40","參拜出雲大社","拜殿、本殿、神楽殿約 1.5 小時（二禮四拍手一禮）","出雲大社"],
+          ["09:40","參拜出雲大社","拜殿、本殿、神樂殿約 1.5 小時","出雲大社"],
           ["11:30","神門通午餐：出雲蕎麥麵＋善哉","荒木屋或羽根屋","荒木屋 出雲大社","約 ¥3,500"],
           ["14:00","步行 → 稻佐之濱","約 20 分",MAPS_BASE+"NxuHJmWcR4ztYfts9"],
-          ["15:08","巴士 → 日御碕","先確認這班存在；約 ¥500/人",MAPS_BASE+"bcJoWMLySJMwwYcH7"],
+          ["15:08","巴士 → 日御碕","約 ¥500/人",MAPS_BASE+"bcJoWMLySJMwwYcH7"],
           ["15:40","日御碕神社＋燈塔","燈塔約 ¥300/人","日御碕灯台"],
           ["17:30","搭巴士回出雲市站","末班 18:07，建議早一班；約 ¥800/人",MAPS_BASE+"bpWiZmJTB5qQ6wmp6"],
           ["19:30","晚餐：出雲市站周邊","","出雲市駅 レストラン","約 ¥6,000"]
@@ -277,7 +279,7 @@
         {d:"10/14 三",t:"天橋立／伊根",e:9500,i:[
           ["集合","依 KKday 憑證集合","多為 07:30–08:30 梅田／大阪站附近","","已付 NT$4,123"],
           ["日間","伊根舟屋、天橋立","傘松公園、智恩寺；午餐自理","天橋立","午餐約 ¥3,500"],
-          ["19:00","晚餐：道頓堀「美津の」大阪燒","","美津の 道頓堀","約 ¥5,000"]
+          ["19:00","晚餐：道頓堀 Mizuno 大阪燒","","美津の 道頓堀","約 ¥5,000"]
         ]},
         {d:"10/15 四",t:"天滿宮 / 中崎町 / 梅田",e:15000,i:[
           ["09:00","四橋 → 大阪天滿宮（地鐵約 25 分）","","大阪天満宮","約 ¥240/人"],
@@ -295,7 +297,7 @@
         ]}
       ];
 
-      // 2. 交通資料
+      // 交通資料
       const transports = [
         ["Day1","成田 T2 → 錦糸町","京成 Access Express＋半藏門線","75–90 分","¥1,500",MAPS_BASE+"6ZXdDjkR63xLUjBG8"],
         ["Day2","錦糸町 → 東京站","JR 總武快速","10 分","¥170",MAPS_BASE+"C13sczxtSBajR9jM8"],
@@ -315,24 +317,24 @@
         ["Day8","難波 → 關西機場","南海電鐵","40–50 分","¥970–1,500",""]
       ];
 
-      // 3. 住宿資料
+      // 住宿資料
       const hotels = [
-        ["10/9, 10/10（2 晚）","相鐵 Fresa Inn 東京錦糸町","〒130-0022 東京都墨田区江東橋2-18-7｜JR 錦糸町站南口步行約 3 分｜Klook 訂｜¥56,602｜入住 15:00／退房 11:00","相鉄フレッサイン東京錦糸町 東京都墨田区江東橋2-18-7"],
-        ["10/11, 10/12（2 晚）","出雲 Dormy Inn","近 JR 出雲市站｜樂天旅遊｜NT$11,671｜大浴場、夜鳴きそば","ドーミーイン出雲"],
+        ["10/9, 10/10（2 晚）","相鐵 Fresa Inn 東京錦糸町","東京都墨田区江東橋2-18-7｜JR 錦糸町站南口步行約 3 分｜Klook 訂｜¥56,602｜入住 15:00／退房 11:00","相鉄フレッサイン東京錦糸町 東京都墨田区江東橋2-18-7"],
+        ["10/11, 10/12（2 晚）","出雲 Dormy Inn","近 JR 出雲市站｜樂天旅遊｜NT$11,671｜大浴場、夜鳴拉麵","ドーミーイン出雲"],
         ["10/13–10/15（3 晚）","Via Inn Prime Shinsaibashi Yotsubashi","心齋橋／四橋｜Booking｜¥39,976","Via Inn Prime Shinsaibashi Yotsubashi"]
       ];
 
-      // 4. 行李資料
+      // 行李資料
       const packing = [
         ["證件","護照（效期 6 個月以上）","Visit Japan Web QR","電子機票／登機證","訂房與 KKday 憑證（離線存檔）"],
-        ["金錢","日幣現金 ¥70,000–90,000","信用卡（cube 卡）","Suica／ICOCA","零錢（鄉下巴士）"],
-        ["電子","手機＋行動電源（隨身）","日規轉接頭（100V 雙孔）","充電線","eSIM／網卡（尚未購買）","離線地圖"],
+        ["金錢","日幣現金 ¥70,000–90,000","信用卡","Suica／ICOCA","零錢（鄉下巴士）"],
+        ["電子","手機＋行動電源（隨身）","日規轉接頭（100V 雙孔）","充電線","eSIM／網卡","離線地圖"],
         ["跑步","跑鞋、跑步服","運動內衣褲、襪","小毛巾"],
         ["衣物","薄外套＋防雨外套","洋蔥式穿搭（15–24°C）","折傘","海邊保暖圍巾"],
         ["雜物","個人藥品、OK 繃","防曬","環保袋","折疊後背包","旅平險保單確認"]
       ];
 
-      // 5. 預算資料
+      // 預算資料
       const budgets = [
         ["機票（華航）","NT$31,218"],["國內線 東京→出雲","NT$10,486"],["國內線 出雲→大阪","NT$6,970"],
         ["出雲住宿","NT$11,671"],["Snoopy 博物館","NT$880"],["天橋立一日遊","NT$4,123"],
@@ -341,12 +343,10 @@
 
       const navs = [["📅","行程"],["🚆","交通"],["🏨","住宿"],["🎒","行李"],["💰","預算"]];
 
-      // 計算屬性
       const currentDayData = computed(() => days[cur.value]);
       const totalBudget = computed(() => days.reduce((a, d) => a + d.e, 0));
       const maxBudget = computed(() => Math.max(...days.map(d => d.e)));
 
-      // 方法
       const isHttp = (url) => /^http/.test(url);
       const getMapUrl = (x) => isHttp(x) ? x : "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(x);
 
@@ -360,7 +360,6 @@
         window.scrollTo(0, 0);
       };
 
-      // 本地存儲處理
       onMounted(() => {
         try {
           const saved = JSON.parse(localStorage.getItem("pk") || "{}");
