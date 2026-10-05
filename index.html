@@ -53,12 +53,12 @@ nav button b{display:block;font-size:21px;line-height:1.2}nav button.on{color:va
 <script>
 var S=function(q){return q},G="https://maps.app.goo.gl/";
 var D=[
-{d:"10/9 五",t:"台北 → 東京",e:6000,i:[
+{d:"10/9 五",t:"台北 → 東京",e:4500,i:[
 ["12:30","計程車 → 桃園機場 T2","已預約 55688，約 50–60 分","桃園國際機場第二航廈","NT$950 已付"],
-["13:30","T2 報到托運","CI106 16:30 起飛；先填 Visit Japan Web"],
+["13:30","T2 報到托運","CI106 16:30 起飛｜訂位代號 EYGC8X｜機票號碼 297 2425346927",[["🎫 Mifa 機票","https://drive.google.com/file/d/1ZpBJGt3AVilBCebCHvB7U-ZIqnuEgnkU/view?usp=sharing","r"],["🎫 Weii 機票","https://drive.google.com/file/d/1lt-Sp-Qt3ySFJv4YJZVMEB6oxwNhZenf/view?usp=sharing","r"]]],
 ["20:55","抵達成田 T2、入境","入境約 45–60 分","成田國際機場第2航廈"],
-["22:00","京成 Access Express → 押上 → 半藏門線 → 錦糸町","約 75–90 分；先查末班車，趕不上改機場巴士／計程車",G+"6ZXdDjkR63xLUjBG8","約 ¥1,500/人"],
-["23:30","入住 相鐵 Fresa Inn 錦糸町","超商買宵夜","相鐵FRESA INN 東京錦糸町","餐約 ¥1,500"]]},
+["22:00","成田 T2 → 錦糸町（兩種方式擇一）","① 京成 Access Express → 押上 → 半藏門線，約 75–90 分，先查末班車。② 機場巴士：我沒查到成田直達錦糸町的巴士；確定有的是「東京シャトル」到東京站（約 ¥1,300，預約 ¥900，深夜早朝 ¥2,600），再轉 JR 總武快速約 10 分到錦糸町，請先確認班次",[["🚆 京成 Access Express","https://maps.app.goo.gl/6ZXdDjkR63xLUjBG8","r"],["🚌 機場巴士路線","https://www.google.com/maps/dir/?api=1&origin=成田空港第2ターミナル&destination=相鉄フレッサイン東京錦糸町&travelmode=transit",""]],"電車約 ¥1,500/人"],
+["23:30","入住 相鐵 Fresa Inn 錦糸町（Klook 訂）","〒130-0022 東京都墨田区江東橋2-18-7｜JR 錦糸町站南口步行約 3 分｜入住 15:00／退房 11:00","相鉄フレッサイン東京錦糸町 東京都墨田区江東橋2-18-7"]]},
 {d:"10/10 六",t:"東京晨跑 / 史努比",e:27000,i:[
 ["07:15","錦糸町 → 東京站（JR 總武快速）","約 10 分",G+"C13sczxtSBajR9jM8","約 ¥170/人"],
 ["07:45","ASICS RUN TOKYO MARUNOUCHI 皇居晨跑","約 5 km＋淋浴；付費設施，請看官網","ASICS RUN TOKYO MARUNOUCHI"],
@@ -131,7 +131,7 @@ var T=[["Day1","成田 T2 → 錦糸町","京成 Access Express＋半藏門線",
 ["Day5","出雲 → 松江","JR","30–45 分","¥600–1,100",""],
 ["Day5","出雲 → 大阪伊丹（JAL）","飛機 16:00→16:45","45 分","已付",""],
 ["Day8","難波 → 關西機場","南海電鐵","40–50 分","¥970–1,500",""]];
-var H=[["10/9, 10/10（2 晚）","相鐵 Fresa Inn 東京錦糸町","近錦糸町站｜Klook｜¥56,602","相鐵FRESA INN 東京錦糸町"],
+var H=[["10/9, 10/10（2 晚）","相鐵 Fresa Inn 東京錦糸町","〒130-0022 東京都墨田区江東橋2-18-7｜JR 錦糸町站南口步行約 3 分｜Klook 訂｜¥56,602｜入住 15:00／退房 11:00","相鉄フレッサイン東京錦糸町 東京都墨田区江東橋2-18-7"],
 ["10/11, 10/12（2 晚）","出雲 Dormy Inn","近 JR 出雲市站｜樂天旅遊｜NT$11,671｜大浴場、夜鳴きそば","ドーミーイン出雲"],
 ["10/13–10/15（3 晚）","Via Inn Prime Shinsaibashi Yotsubashi","心齋橋／四橋｜Booking｜¥39,976","Via Inn Prime Shinsaibashi Yotsubashi"]];
 var P=[["證件","護照（效期 6 個月以上）","Visit Japan Web QR","電子機票／登機證","訂房與 KKday 憑證（離線存檔）"],
@@ -141,6 +141,7 @@ var P=[["證件","護照（效期 6 個月以上）","Visit Japan Web QR","電�
 ["衣物","薄外套＋防雨外套","洋蔥式穿搭（15–24°C）","折傘","海邊保暖圍巾"],
 ["雜物","個人藥品、OK 繃","防曬","環保袋","折疊後背包","旅平險保單確認"]];
 var B=[["機票（華航）","NT$31,218"],["國內線 東京→出雲","NT$10,486"],["國內線 出雲→大阪","NT$6,970"],["出雲住宿","NT$11,671"],["Snoopy 博物館","NT$880"],["天橋立一日遊","NT$4,123"],["去程計程車","NT$950"],["旅平險","NT$597"],["東京住宿","¥56,602"],["大阪住宿","¥39,976"]];
+function ib(r){var x=r[3];if(!x)return"";if(Array.isArray(x))return x.map(function(b){return btn(b[1],b[0],b[2])}).join("");var u=/^http/.test(x);return btn(x,u?"🧭 路線導航":"📍 導航",u?"r":"")}
 function q(x){return/^http/.test(x)?x:"https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(x)}
 function e(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
 function btn(x,l,c){return x?'<a class="btn '+(c||"")+'" target="_blank" rel="noopener" href="'+q(x)+'">'+l+'</a>':""}
@@ -149,7 +150,7 @@ var ck={};try{ck=JSON.parse(localStorage.getItem("pk")||"{}")}catch(x){}
 function save(){try{localStorage.setItem("pk",JSON.stringify(ck))}catch(x){}}
 function R(){chips.style.display=tab?"none":"flex";var h="";
 if(tab==0){var d=D[cur];h+="<h2>"+d.d+"｜"+d.t+"</h2>"+(d.w?'<div class="warn">⚠ '+d.w+"</div>":"")+'<div class="tl">';
-d[("i")].forEach(function(r){var isU=/^http/.test(r[3]||"");h+='<div class="it"><div class="tm">'+r[0]+'</div><div class="tt">'+e(r[1])+"</div>"+(r[2]?'<div class="nt">'+e(r[2])+"</div>":"")+(r[4]?'<span class="cost">'+e(r[4])+"</span><br>":"")+(r[3]?btn(r[3],isU?"🧭 路線導航":"📍 導航",isU?"r":""):"")+"</div>"});
+d[("i")].forEach(function(r){var isU=/^http/.test(r[3]||"");h+='<div class="it"><div class="tm">'+r[0]+'</div><div class="tt">'+e(r[1])+"</div>"+(r[2]?'<div class="nt">'+e(r[2])+"</div>":"")+(r[4]?'<span class="cost">'+e(r[4])+"</span><br>":"")+ib(r)+"</div>"});
 h+='</div><div class="est">💴 當日預估花費（未預付，兩人）：約 ¥'+d.e.toLocaleString()+"</div>"}
 else if(tab==1){h+="<h2>🚆 交通</h2><p class=sub>票價為估計值（每人），請以 Google Map 即時確認</p>";
 T.forEach(function(r){h+='<div class="card"><div class="nt">'+r[0]+'</div><h3>'+r[1]+'</h3><div class="nt">'+r[2]+" ｜ "+r[3]+" ｜ "+r[4]+"</div>"+btn(r[5],"🧭 路線導航","r")+"</div>"})}
