@@ -1,176 +1,391 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>出雲驛傳 8 日旅行 App</title>
-<style>
-:root{--bg:#a9c9d3;--panel:#fdf1de;--fg:#4a3a2c;--mut:#8a7560;--card:#fffaf1;--ln:#d8c3a2;--ac:#d1624a;--ac2:#2f6272;--soft:#f6dfc2;--yl:#e9b94b;--on:#fff;--hf:#23404d;--sky:#eef4fa;--gr:#7a9a55;--hw:-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;--nz:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/><feColorMatrix values='0 0 0 0 .4 0 0 0 0 .32 0 0 0 0 .25 0 0 0 .55 0'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>");box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#24383f;--panel:#2c434b;--fg:#f1e6d3;--mut:#b8a98f;--card:#35505a;--ln:#4d6a74;--ac:#ee8a72;--ac2:#8cc3d0;--soft:#3d5964;--on:#2b1f16;--hf:#f1e6d3;--sky:#2c4254}}
-:root[data-theme="dark"]{--bg:#24383f;--panel:#2c434b;--fg:#f1e6d3;--mut:#b8a98f;--card:#35505a;--ln:#4d6a74;--ac:#ee8a72;--ac2:#8cc3d0;--soft:#3d5964;--on:#2b1f16;--hf:#f1e6d3;--sky:#2c4254}
-*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 -apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;padding-bottom:84px}
-body:before{content:"";position:fixed;inset:0;background:var(--nz);opacity:.22;mix-blend-mode:multiply;pointer-events:none;z-index:50}
-.wob{border-radius:18px 12px 20px 11px/12px 20px 11px 18px}
-header{position:relative;padding:16px 18px;color:var(--hf);background:var(--bg);overflow:hidden;min-height:120px;border-radius:0 0 24px 20px/0 0 20px 24px}
-header small{display:block;font:12px var(--hw);letter-spacing:.2em;opacity:.95}
-header h1{margin:2px 0 0;font:800 21px/1.3 var(--hw);letter-spacing:.08em}
-header p{margin:8px 0 0;font:13px/1.5 var(--hw)}
-header svg{position:absolute;left:0;top:0;width:100%;height:100%}header>*:not(svg){position:relative;z-index:1}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:10px 12px 12px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;scrollbar-width:none}
-.chip{flex:0 0 auto;border:0;background:var(--panel);color:var(--fg);border-radius:14px 10px 15px 9px/10px 15px 9px 14px;padding:5px 12px;text-align:center;font:12px/1.3 var(--hw)}
-.chip b{display:block;font-size:15px}.chip.on{background:var(--yl);color:#4a3a2c;transform:rotate(-2deg)}
-main{background:var(--panel);margin:0 10px;padding:12px 12px 14px;max-width:640px;border-radius:26px 20px 24px 18px/20px 24px 18px 26px;min-height:60vh}
-@media(min-width:680px){main{margin:0 auto}}
-h2{font:700 19px var(--hw);margin:4px 0 2px;text-decoration:underline wavy var(--ac2) 1.5px;text-underline-offset:6px}.sub{color:var(--mut);font-size:13px;margin:6px 0 10px}
-.tl{border-left:2.5px dashed var(--ln);margin:10px 0 0 6px;padding-left:15px}
-.it,.card{position:relative;background:var(--card);border:1.5px dashed var(--ln);border-radius:18px 12px 20px 11px/12px 20px 11px 18px;padding:9px 12px;margin:0 0 10px}
-.it:before{content:"";position:absolute;left:-23px;top:14px;width:11px;height:11px;border-radius:50% 45% 50% 48%;background:var(--ac);border:2px solid var(--panel)}
-.tm{font:15px var(--hw);color:var(--ac)}.tt{font-weight:600}.nt{font-size:13px;color:var(--mut)}
-.cost{display:inline-block;font:12.5px var(--hw);background:var(--soft);color:var(--ac);border-radius:9px 6px 10px 6px;padding:1px 8px;margin-top:3px}
-.btn{display:inline-block;margin:6px 6px 0 0;background:var(--ac);color:var(--on);text-decoration:none;border-radius:15px 10px 16px 9px/10px 16px 9px 15px;padding:4px 13px;font:14px var(--hw)}
-.btn.r{background:var(--ac2)}
-.est{background:var(--soft);border-radius:14px 9px 15px 8px;padding:8px 12px;font:14px var(--hw);margin:8px 0 2px}
-.warn{background:#f9e3a6;color:#5a4410;border-radius:14px 9px 15px 8px;padding:8px 12px;font-size:13px;margin:8px 0}
-.card h3{margin:0 0 2px;font:17px var(--hw)}
-.row{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-top:1.5px dashed var(--ln);font-size:14px}.row:first-of-type{border-top:0}
-.bar{height:8px;border-radius:6px 4px 7px 4px;background:var(--ln);margin-top:3px}.bar i{display:block;height:100%;border-radius:6px 4px 7px 4px;background:var(--yl)}
-label{display:flex;gap:9px;align-items:flex-start;padding:5px 0}input[type=checkbox]{width:20px;height:20px;accent-color:var(--ac);flex:0 0 auto;margin-top:2px}
-label.d span{text-decoration:line-through wavy var(--ac);color:var(--mut)}
-nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--panel);border-top:2.5px dashed var(--ln);padding-bottom:env(safe-area-inset-bottom,0px);z-index:60}
-nav button{flex:1;border:0;background:none;color:var(--mut);padding:7px 0 6px;font:12px var(--hw)}
-nav button b{display:block;font-size:21px;line-height:1.2}nav button.on{color:var(--ac)}nav button.on b{transform:rotate(-8deg)}
-</style></head><body>
-<header><h1>東京 ‧ 出雲驛傳 ‧ 大阪</h1><p>10/9 – 10/16 ｜ Mifa &amp; Weii</p>
-<svg viewBox="0 0 400 132" preserveAspectRatio="xMaxYMax slice" stroke-linecap="round" stroke-linejoin="round"><circle cx="302" cy="64" r="34" fill="#d9a08c" opacity=".92"/>
-<g stroke="#e6f2f6" stroke-width="9" fill="none"><path d="M232 40h44"/><path d="M250 66h74" opacity=".8"/><path d="M360 50h50" opacity=".8"/></g>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>出雲驛傳 8 日旅行 App (Vue3 版)</title>
+  <style>
+    :root {
+      --bg: #a9c9d3; --panel: #fdf1de; --fg: #4a3a2c; --mut: #8a7560; --card: #fffaf1;
+      --ln: #d8c3a2; --ac: #d1624a; --ac2: #2f6272; --soft: #f6dfc2; --yl: #e9b94b;
+      --on: #fff; --hf: #23404d; --sky: #eef4fa; --gr: #7a9a55;
+      --hw: -apple-system, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      --nz: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/><feColorMatrix values='0 0 0 0 .4 0 0 0 0 .32 0 0 0 0 .25 0 0 0 .55 0'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>");
+      box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    @media(prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #24383f; --panel: #2c434b; --fg: #f1e6d3; --mut: #b8a98f; --card: #35505a;
+        --ln: #4d6a74; --ac: #ee8a72; --ac2: #8cc3d0; --soft: #3d5964; --on: #2b1f16;
+        --hf: #f1e6d3; --sky: #2c4254;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #24383f; --panel: #2c434b; --fg: #f1e6d3; --mut: #b8a98f; --card: #35505a;
+      --ln: #4d6a74; --ac: #ee8a72; --ac2: #8cc3d0; --soft: #3d5964; --on: #2b1f16;
+      --hf: #f1e6d3; --sky: #2c4254;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+    body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.6 var(--hw); padding-bottom: 84px; }
+    body:before { content: ""; position: fixed; inset: 0; background: var(--nz); opacity: .22; mix-blend-mode: multiply; pointer-events: none; z-index: 50; }
+    header { position: relative; padding: 16px 18px; color: var(--hf); background: var(--bg); overflow: hidden; min-height: 120px; border-radius: 0 0 24px 20px/0 0 20px 24px; }
+    header h1 { margin: 2px 0 0; font: 800 21px/1.3 var(--hw); letter-spacing: .08em; }
+    header p { margin: 8px 0 0; font: 13px/1.5 var(--hw); }
+    header svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+    header > *:not(svg) { position: relative; z-index: 1; }
+    .chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 12px 12px; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 5; scrollbar-width: none; }
+    .chip { flex: 0 0 auto; border: 0; background: var(--panel); color: var(--fg); border-radius: 14px 10px 15px 9px/10px 15px 9px 14px; padding: 5px 12px; text-align: center; font: 12px/1.3 var(--hw); cursor: pointer; }
+    .chip b { display: block; font-size: 15px; }
+    .chip.on { background: var(--yl); color: #4a3a2c; transform: rotate(-2deg); }
+    main { background: var(--panel); margin: 0 10px; padding: 12px 12px 14px; max-width: 640px; border-radius: 26px 20px 24px 18px/20px 24px 18px 26px; min-height: 60vh; }
+    @media(min-width: 680px) { main { margin: 0 auto; } }
+    h2 { font: 700 19px var(--hw); margin: 4px 0 2px; text-decoration: underline wavy var(--ac2) 1.5px; text-underline-offset: 6px; }
+    .sub { color: var(--mut); font-size: 13px; margin: 6px 0 10px; }
+    .tl { border-left: 2.5px dashed var(--ln); margin: 10px 0 0 6px; padding-left: 15px; }
+    .it, .card { position: relative; background: var(--card); border: 1.5px dashed var(--ln); border-radius: 18px 12px 20px 11px/12px 20px 11px 18px; padding: 9px 12px; margin: 0 0 10px; }
+    .it:before { content: ""; position: absolute; left: -23px; top: 14px; width: 11px; height: 11px; border-radius: 50% 45% 50% 48%; background: var(--ac); border: 2px solid var(--panel); }
+    .tm { font: 15px var(--hw); color: var(--ac); }
+    .tt { font-weight: 600; }
+    .nt { font-size: 13px; color: var(--mut); }
+    .cost { display: inline-block; font: 12.5px var(--hw); background: var(--soft); color: var(--ac); border-radius: 9px 6px 10px 6px; padding: 1px 8px; margin-top: 3px; }
+    .btn { display: inline-block; margin: 6px 6px 0 0; background: var(--ac); color: var(--on); text-decoration: none; border-radius: 15px 10px 16px 9px/10px 16px 9px 15px; padding: 4px 13px; font: 14px var(--hw); }
+    .btn.r { background: var(--ac2); }
+    .est { background: var(--soft); border-radius: 14px 9px 15px 8px; padding: 8px 12px; font: 14px var(--hw); margin: 8px 0 2px; }
+    .warn { background: #f9e3a6; color: #5a4410; border-radius: 14px 9px 15px 8px; padding: 8px 12px; font-size: 13px; margin: 8px 0; }
+    .card h3 { margin: 0 0 2px; font: 17px var(--hw); }
+    .row { display: flex; justify-content: space-between; gap: 8px; padding: 5px 0; border-top: 1.5px dashed var(--ln); font-size: 14px; }
+    .row:first-of-type { border-top: 0; }
+    .bar { height: 8px; border-radius: 6px 4px 7px 4px; background: var(--ln); margin-top: 3px; }
+    .bar i { display: block; height: 100%; border-radius: 6px 4px 7px 4px; background: var(--yl); }
+    label { display: flex; gap: 9px; align-items: flex-start; padding: 5px 0; cursor: pointer; }
+    input[type=checkbox] { width: 20px; height: 20px; accent-color: var(--ac); flex: 0 0 auto; margin-top: 2px; }
+    label.d span { text-decoration: line-through wavy var(--ac); color: var(--mut); }
+    nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; background: var(--panel); border-top: 2.5px dashed var(--ln); padding-bottom: env(safe-area-inset-bottom, 0px); z-index: 60; }
+    nav button { flex: 1; border: 0; background: none; color: var(--mut); padding: 7px 0 6px; font: 12px var(--hw); cursor: pointer; }
+    nav button b { display: block; font-size: 21px; line-height: 1.2; }
+    nav button.on { color: var(--ac); }
+    nav button.on b { transform: rotate(-8deg); }
+  </style>
+</head>
+<body>
 
-<path d="M150 112Q215 104 262 88 280 76 292 56Q300 48 308 56 322 74 346 90 372 104 410 112Z" fill="#5b8fa4"/>
-<path d="M277 76L292 57Q300 48 308 57L322 74 316 72 313 82 308 73 303 86 298 74 292 84 288 73 283 80Z" fill="#fff"/>
-<g fill="#c25a44"><rect x="340" y="96" width="2.5" height="14"/><rect x="354" y="96" width="2.5" height="14"/><rect x="337" y="94" width="22" height="3"/></g><path d="M364 106L374 97 386 106Z" fill="#2f6272"/><rect x="367" y="106" width="16" height="4" fill="#fdf1de"/>
-<path d="M0 108Q100 100 200 109T400 107V132H0Z" fill="#3d6c80"/><path d="M0 116Q120 108 240 117T400 114V132H0Z" fill="#5b8fa4"/><path d="M0 123Q140 117 260 124T400 121V132H0Z" fill="#80b2c4"/><path d="M0 129Q200 125 400 130V132H0Z" fill="#3d6c80"/></svg></header>
-<div id="chips" class="chips"></div>
-<main id="v"></main>
-<nav id="nav"></nav>
-<script>
-var S=function(q){return q},G="https://maps.app.goo.gl/";
-var D=[
-{d:"10/9 五",t:"台北 → 東京",e:4500,i:[
-["12:30","計程車 → 桃園機場 T2","已預約 55688，約 50–60 分","桃園國際機場第二航廈","NT$950 已付"],
-["13:30","T2 報到托運","CI106 16:30 起飛｜訂位代號 EYGC8X｜機票號碼 297 2425346927",[["🎫 Mifa 機票","https://drive.google.com/file/d/1ZpBJGt3AVilBCebCHvB7U-ZIqnuEgnkU/view?usp=sharing","r"],["🎫 Weii 機票","https://drive.google.com/file/d/1lt-Sp-Qt3ySFJv4YJZVMEB6oxwNhZenf/view?usp=sharing","r"]]],
-["20:55","抵達成田 T2、入境","入境約 45–60 分","成田國際機場第2航廈"],
-["22:00","成田 T2 → 錦糸町（兩種方式擇一）","① 京成 Access Express → 押上 → 半藏門線，約 75–90 分，先查末班車。② 機場巴士：我沒查到成田直達錦糸町的巴士；確定有的是「東京シャトル」到東京站（約 ¥1,300，預約 ¥900，深夜早朝 ¥2,600），再轉 JR 總武快速約 10 分到錦糸町，請先確認班次",[["🚆 京成 Access Express","https://maps.app.goo.gl/6ZXdDjkR63xLUjBG8","r"],["🚌 機場巴士路線","https://www.google.com/maps/dir/?api=1&origin=成田空港第2ターミナル&destination=相鉄フレッサイン東京錦糸町&travelmode=transit",""]],"電車約 ¥1,500/人"],
-["23:30","入住 相鐵 Fresa Inn 錦糸町（Klook 訂）","〒130-0022 東京都墨田区江東橋2-18-7｜JR 錦糸町站南口步行約 3 分｜入住 15:00／退房 11:00","相鉄フレッサイン東京錦糸町 東京都墨田区江東橋2-18-7"]]},
-{d:"10/10 六",t:"東京晨跑 / 史努比",e:27000,i:[
-["07:15","錦糸町 → 東京站（JR 總武快速）","約 10 分",G+"C13sczxtSBajR9jM8","約 ¥170/人"],
-["07:45","ASICS RUN TOKYO MARUNOUCHI 皇居晨跑","約 5 km＋淋浴；付費設施，請看官網","ASICS RUN TOKYO MARUNOUCHI"],
-["09:30","早餐：東京拉麵街或丸之內咖啡廳","","東京ラーメンストリート","約 ¥2,000"],
-["10:00","東京 → 澀谷 → 田園都市線 → 南町田","約 65 分",G+"YvVAZT2cRjJe7dZs5","約 ¥550/人"],
-["11:30","史努比博物館","KKday 憑證備好","スヌーピーミュージアム 町田","已付 NT$880"],
-["14:15","PEANUTS Cafe 下午茶","請確認是館內 Cafe 或其他分店","","約 ¥2,500"],
-["15:30","逛 Grandberry Park 商場","","南町田グランベリーパーク"],
-["17:00","回澀谷自由逛","選項：澀谷 SKY 看夜景（另購票）","SHIBUYA SKY"],
-["20:00","晚餐：烤肉激素 新井屋 Hanare","",G+"gF3q2VYCD7D9GPaz5","約 ¥14,000"],
-["22:00","澀谷 → 錦糸町（半藏門線）回飯店","約 20 分",G+"xPGcDREthQXhSW7x7","約 ¥280/人"]]},
-{d:"10/11 日",t:"池袋 → 出雲",e:12000,i:[
-["09:30","退房，錦糸町 → 池袋，行李寄置物櫃","約 35 分",G+"W2wZTgiiM75XevDYA","櫃約 ¥600"],
-["10:30","池袋 Sunshine City","水族館／寶可夢中心／展望台擇一","サンシャインシティ","門票 ¥1,000–2,600"],
-["12:30","午餐：Sunshine City 美食街","","","約 ¥3,000"],
-["14:15","池袋 → 羽田機場 T1（山手線→品川→京急）","約 55 分",G+"dH2RWsrYW7i4QMcf8","約 ¥600/人"],
-["15:30","羽田 T1 南翼 JAL 報到","注意是第 1 航廈，不是第 2","羽田空港第1ターミナル"],
-["16:55","JAL 羽田 → 出雲，18:25 抵達","已付 NT$10,486","出雲縁結び空港"],
-["19:00","機場巴士 → 出雲市站","約 25–30 分，約 ¥630/人（待確認）；先查末班",G+"sq7XJ6ftJ9uN3qAo9"],
-["20:00","入住 出雲 Dormy Inn，晚餐在市站周邊","","ドーミーイン出雲","餐約 ¥6,000"],
-["21:30","夜鳴きそば、大浴場","時間依館方"]],w:"10/11 17:00 開幕式在出雲市民會館，你 18:25 才抵達，會錯過。"},
-{d:"10/12 一",t:"出雲驛傳 ⭐",e:14000,i:[
-["07:00","飯店 → 出雲大社","賽事管制可能繞路；約 25–35 分",G+"aiAioyKsn1zNNMz88","約 ¥450/人"],
-["08:00","勢溜（正面鳥居前）卡位","起點人潮多，早到","出雲大社 正面鳥居 勢溜"],
-["09:10","第 38 回出雲驛傳開跑","6 區間 45.1 km，終點出雲巨蛋，約 11:30 結束"],
-["09:40","參拜出雲大社","拜殿、本殿、神楽殿約 1.5 小時（二禮四拍手一禮）","出雲大社"],
-["11:30","神門通午餐：出雲蕎麥麵＋善哉","荒木屋或羽根屋","荒木屋 出雲大社","約 ¥3,500"],
-["14:00","步行 → 稻佐之濱","約 20 分",G+"NxuHJmWcR4ztYfts9"],
-["15:08","巴士 → 日御碕","先確認這班存在；約 ¥500/人",G+"bcJoWMLySJMwwYcH7"],
-["15:40","日御碕神社＋燈塔","燈塔約 ¥300/人","日御碕灯台"],
-["17:30","搭巴士回出雲市站","末班 18:07，建議早一班；約 ¥800/人",G+"bpWiZmJTB5qQ6wmp6"],
-["19:30","晚餐：出雲市站周邊","","出雲市駅 レストラン","約 ¥6,000"]],w:"10/12 為運動之日連假，路線與巴士可能有管制，早點出發。"},
-{d:"10/13 二",t:"松江城 → 大阪",e:18000,i:[
-["08:15","退房，出雲市站 → 松江站（JR）","約 30–45 分；行李帶著走","","約 ¥600–1,100/人"],
-["09:15","松江城","Lake Line 巴士或步行 20 分；天守約 ¥680/人","松江城"],
-["11:30","午餐：松江站周邊","蕎麥／宍道湖鰻魚飯","松江駅 ランチ","約 ¥4,000"],
-["12:45","JR 回出雲市站 → 巴士到出雲機場","12:45 前務必離開松江","出雲縁結び空港","約 ¥1,500/人"],
-["14:30","機場報到","JAL 16:00 → 16:45 抵伊丹，已付 NT$6,970"],
-["17:30","伊丹 → 心齋橋／四橋","利木津巴士或單軌＋阪急＋地鐵，約 60–70 分","Via Inn Prime Shinsaibashi Yotsubashi","約 ¥900/人"],
-["19:00","橘街（堀江）晚餐／咖啡","","橘通り 堀江 大阪","約 ¥6,000"]]},
-{d:"10/14 三",t:"天橋立／伊根",e:9500,i:[
-["集合","依 KKday 憑證集合","多為 07:30–08:30 梅田／大阪站附近","","已付 NT$4,123"],
-["日間","伊根舟屋、天橋立","傘松公園、智恩寺；午餐自理","天橋立","午餐約 ¥3,500"],
-["19:00","晚餐：道頓堀「美津の」大阪燒","","美津の 道頓堀","約 ¥5,000"]]},
-{d:"10/15 四",t:"天滿宮 / 中崎町 / 梅田",e:15000,i:[
-["09:00","四橋 → 大阪天滿宮（地鐵約 25 分）","","大阪天満宮","約 ¥240/人"],
-["11:00","天神橋筋商店街散步＋午餐","","天神橋筋商店街","約 ¥3,500"],
-["13:30","中崎町咖啡廳巷弄","","中崎町","約 ¥2,000"],
-["15:30","梅田購物 Grand Front／阪急","選項：空中庭園約 ¥1,500/人","グランフロント大阪"],
-["19:00","晚餐：新梅田食道街","串炸／居酒屋","新梅田食道街","約 ¥7,000"],
-["21:00","回飯店打包行李","","","交通約 ¥1,000"]]},
-{d:"10/16 五",t:"大阪 → 台北",e:8000,i:[
-["09:30","退房，四橋 → 難波（地鐵）","","","約 ¥240/人"],
-["10:00","南海電鐵 難波 → 關西機場","Rapi:t 或空港急行約 40–50 分","南海難波駅","約 ¥970–1,500/人"],
-["11:15","KIX T1：退稅、伴手禮、午餐","","関西国際空港 第1ターミナル","約 ¥2,500"],
-["12:00","CI153 報到托運","14:00 起飛，16:00 抵桃園"]]}];
-var T=[["Day1","成田 T2 → 錦糸町","京成 Access Express＋半藏門線","75–90 分","¥1,500",G+"6ZXdDjkR63xLUjBG8"],
-["Day2","錦糸町 → 東京站","JR 總武快速","10 分","¥170",G+"C13sczxtSBajR9jM8"],
-["Day2","錦糸町 → 南町田","JR＋山手＋田園都市線","65 分","¥550",G+"YvVAZT2cRjJe7dZs5"],
-["Day2","南町田 → 澀谷","田園都市線","40 分","¥340",G+"gF3q2VYCD7D9GPaz5"],
-["Day2","澀谷 → 錦糸町","半藏門線","20 分","¥280",G+"xPGcDREthQXhSW7x7"],
-["Day3","錦糸町 → 池袋","電車","35 分","¥230",G+"W2wZTgiiM75XevDYA"],
-["Day3","池袋 → 羽田 T1","山手線＋京急","55 分","¥600",G+"dH2RWsrYW7i4QMcf8"],
-["Day3","羽田 → 出雲（JAL）","飛機 16:55→18:25","1.5 小時","已付",""],
-["Day3","出雲機場 → 出雲市站","機場巴士","25–30 分","¥630",G+"sq7XJ6ftJ9uN3qAo9"],
-["Day4","飯店 → 出雲大社","巴士／一畑電車","25–35 分","¥450",G+"aiAioyKsn1zNNMz88"],
-["Day4","大社 → 稻佐之濱","步行","20 分","免費",G+"NxuHJmWcR4ztYfts9"],
-["Day4","稻佐之濱 → 日御碕","一畑巴士（15:08）","20–30 分","¥500",G+"bcJoWMLySJMwwYcH7"],
-["Day4","日御碕 → 出雲市站","一畑巴士（末班 18:07）","約 60 分","¥800",G+"bpWiZmJTB5qQ6wmp6"],
-["Day5","出雲 → 松江","JR","30–45 分","¥600–1,100",""],
-["Day5","出雲 → 大阪伊丹（JAL）","飛機 16:00→16:45","45 分","已付",""],
-["Day8","難波 → 關西機場","南海電鐵","40–50 分","¥970–1,500",""]];
-var H=[["10/9, 10/10（2 晚）","相鐵 Fresa Inn 東京錦糸町","〒130-0022 東京都墨田区江東橋2-18-7｜JR 錦糸町站南口步行約 3 分｜Klook 訂｜¥56,602｜入住 15:00／退房 11:00","相鉄フレッサイン東京錦糸町 東京都墨田区江東橋2-18-7"],
-["10/11, 10/12（2 晚）","出雲 Dormy Inn","近 JR 出雲市站｜樂天旅遊｜NT$11,671｜大浴場、夜鳴きそば","ドーミーイン出雲"],
-["10/13–10/15（3 晚）","Via Inn Prime Shinsaibashi Yotsubashi","心齋橋／四橋｜Booking｜¥39,976","Via Inn Prime Shinsaibashi Yotsubashi"]];
-var P=[["證件","護照（效期 6 個月以上）","Visit Japan Web QR","電子機票／登機證","訂房與 KKday 憑證（離線存檔）"],
-["金錢","日幣現金 ¥70,000–90,000","信用卡（cube 卡）","Suica／ICOCA","零錢（鄉下巴士）"],
-["電子","手機＋行動電源（隨身）","日規轉接頭（100V 雙孔）","充電線","eSIM／網卡（尚未購買）","離線地圖"],
-["跑步","跑鞋、跑步服","運動內衣褲、襪","小毛巾"],
-["衣物","薄外套＋防雨外套","洋蔥式穿搭（15–24°C）","折傘","海邊保暖圍巾"],
-["雜物","個人藥品、OK 繃","防曬","環保袋","折疊後背包","旅平險保單確認"]];
-var B=[["機票（華航）","NT$31,218"],["國內線 東京→出雲","NT$10,486"],["國內線 出雲→大阪","NT$6,970"],["出雲住宿","NT$11,671"],["Snoopy 博物館","NT$880"],["天橋立一日遊","NT$4,123"],["去程計程車","NT$950"],["旅平險","NT$597"],["東京住宿","¥56,602"],["大阪住宿","¥39,976"]];
-function ib(r){var x=r[3];if(!x)return"";if(Array.isArray(x))return x.map(function(b){return btn(b[1],b[0],b[2])}).join("");var u=/^http/.test(x);return btn(x,u?"🧭 路線導航":"📍 導航",u?"r":"")}
-function q(x){return/^http/.test(x)?x:"https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(x)}
-function e(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
-function btn(x,l,c){return x?'<a class="btn '+(c||"")+'" target="_blank" rel="noopener" href="'+q(x)+'">'+l+'</a>':""}
-var cur=0,tab=0,v=document.getElementById("v"),chips=document.getElementById("chips");
-var ck={};try{ck=JSON.parse(localStorage.getItem("pk")||"{}")}catch(x){}
-function save(){try{localStorage.setItem("pk",JSON.stringify(ck))}catch(x){}}
-function R(){chips.style.display=tab?"none":"flex";var h="";
-if(tab==0){var d=D[cur];h+="<h2>"+d.d+"｜"+d.t+"</h2>"+(d.w?'<div class="warn">⚠ '+d.w+"</div>":"")+'<div class="tl">';
-d[("i")].forEach(function(r){var isU=/^http/.test(r[3]||"");h+='<div class="it"><div class="tm">'+r[0]+'</div><div class="tt">'+e(r[1])+"</div>"+(r[2]?'<div class="nt">'+e(r[2])+"</div>":"")+(r[4]?'<span class="cost">'+e(r[4])+"</span><br>":"")+ib(r)+"</div>"});
-h+='</div><div class="est">💴 當日預估花費（未預付，兩人）：約 ¥'+d.e.toLocaleString()+"</div>"}
-else if(tab==1){h+="<h2>🚆 交通</h2><p class=sub>票價為估計值（每人），請以 Google Map 即時確認</p>";
-T.forEach(function(r){h+='<div class="card"><div class="nt">'+r[0]+'</div><h3>'+r[1]+'</h3><div class="nt">'+r[2]+" ｜ "+r[3]+" ｜ "+r[4]+"</div>"+btn(r[5],"🧭 路線導航","r")+"</div>"})}
-else if(tab==2){h+="<h2>🏨 住宿</h2><p class=sub>精確地址請看訂房確認信</p>";
-H.forEach(function(r){h+='<div class="card"><div class="nt">'+r[0]+"</div><h3>"+r[1]+'</h3><div class="nt">'+r[2]+"</div>"+btn(r[3],"📍 導航")+"</div>"})}
-else if(tab==3){h+="<h2>🎒 行李清單</h2><p class=sub>勾選會存在這支手機的瀏覽器</p>";
-P.forEach(function(g,gi){h+='<div class="card"><h3>'+g[0]+"</h3>";g.slice(1).forEach(function(t,i){var k=gi+"-"+i;h+='<label class="'+(ck[k]?"d":"")+'"><input type="checkbox" data-k="'+k+'"'+(ck[k]?" checked":"")+"><span>"+e(t)+"</span></label>"});h+="</div>"})}
-else{var tot=D.reduce(function(a,d){return a+d.e},0),mx=Math.max.apply(null,D.map(function(d){return d.e}));
-h+="<h2>💰 預算</h2><div class=card><h3>已預付（兩人）</h3>";B.forEach(function(r){h+='<div class="row"><span>'+r[0]+"</span><b>"+r[1]+"</b></div>"});
-h+='<div class="row"><span>合計</span><b>NT$66,895 ＋ ¥96,578</b></div></div><div class="card"><h3>當地每日預估（兩人）</h3>';
-D.forEach(function(d){h+='<div style="padding:4px 0"><div class="row" style="border:0;padding:0"><span>'+d.d+" "+d.t+"</span><b>¥"+d.e.toLocaleString()+'</b></div><div class="bar"><i style="width:'+Math.round(d.e/mx*100)+'%"></i></div></div>'});
-h+='<div class="row"><span>合計（不含伴手禮）</span><b>約 ¥'+tot.toLocaleString()+"</b></div></div>"}
-v.innerHTML=h;
-v.querySelectorAll("input[data-k]").forEach(function(c){c.onchange=function(){ck[c.dataset.k]=c.checked;save();c.parentNode.className=c.checked?"d":""}});
-chips.querySelectorAll(".chip").forEach(function(c,i){c.className="chip"+(i==cur?" on":"")});window.scrollTo(0,0)}
-chips.innerHTML=D.map(function(d,i){var p=d.d.split(" ");return'<button class="chip" data-i="'+i+'"><b>'+p[0]+"</b>"+p[1]+"</button>"}).join("");
-chips.onclick=function(ev){var b=ev.target.closest(".chip");if(b){cur=+b.dataset.i;R()}};
-var N=[["📅","行程"],["🚆","交通"],["🏨","住宿"],["🎒","行李"],["💰","預算"]],nav=document.getElementById("nav");
-nav.innerHTML=N.map(function(n,i){return'<button data-t="'+i+'"><b>'+n[0]+"</b>"+n[1]+"</button>"}).join("");
-function NV(){nav.querySelectorAll("button").forEach(function(b,i){b.className=i==tab?"on":""})}
-nav.onclick=function(ev){var b=ev.target.closest("button");if(b){tab=+b.dataset.t;NV();R()}};
-NV();R();
-</script></body></html>
+<div id="app">
+  <!-- 頁首 -->
+  <header>
+    <h1>東京 ‧ 出雲驛傳 ‧ 大阪</h1>
+    <p>10/9 – 10/16 ｜ Mifa &amp; Weii</p>
+    <svg viewBox="0 0 400 132" preserveAspectRatio="xMaxYMax slice" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="302" cy="64" r="34" fill="#d9a08c" opacity=".92"/>
+      <g stroke="#e6f2f6" stroke-width="9" fill="none"><path d="M232 40h44"/><path d="M250 66h74" opacity=".8"/><path d="M360 50h50" opacity=".8"/></g>
+      <path d="M150 112Q215 104 262 88 280 76 292 56Q300 48 308 56 322 74 346 90 372 104 410 112Z" fill="#5b8fa4"/>
+      <path d="M277 76L292 57Q300 48 308 57L322 74 316 72 313 82 308 73 303 86 298 74 292 84 288 73 283 80Z" fill="#fff"/>
+      <g fill="#c25a44"><rect x="340" y="96" width="2.5" height="14"/><rect x="354" y="96" width="2.5" height="14"/><rect x="337" y="94" width="22" height="3"/></g>
+      <path d="M364 106L374 97 386 106Z" fill="#2f6272"/><rect x="367" y="106" width="16" height="4" fill="#fdf1de"/>
+      <path d="M0 108Q100 100 200 109T400 107V132H0Z" fill="#3d6c80"/>
+      <path d="M0 116Q120 108 240 117T400 114V132H0Z" fill="#5b8fa4"/>
+      <path d="M0 123Q140 117 260 124T400 121V132H0Z" fill="#80b2c4"/>
+      <path d="M0 129Q200 125 400 130V132H0Z" fill="#3d6c80"/>
+    </svg>
+  </header>
+
+  <!-- 日期 Chips 列 (僅在行程 Tab 顯示) -->
+  <div v-if="tab === 0" class="chips">
+    <button 
+      v-for="(day, idx) in days" 
+      :key="idx" 
+      class="chip" 
+      :class="{ on: cur === idx }"
+      @click="setCur(idx)"
+    >
+      <b>{{ day.d.split(' ')[0] }}</b>{{ day.d.split(' ')[1] }}
+    </button>
+  </div>
+
+  <!-- 主要內容區 -->
+  <main>
+    <!-- Tab 0: 行程 -->
+    <template v-if="tab === 0">
+      <h2>{{ currentDayData.d }}｜{{ currentDayData.t }}</h2>
+      <div v-if="currentDayData.w" class="warn">⚠ {{ currentDayData.w }}</div>
+      <div class="tl">
+        <div v-for="(item, idx) in currentDayData.i" :key="idx" class="it">
+          <div class="tm">{{ item[0] }}</div>
+          <div class="tt">{{ item[1] }}</div>
+          <div v-if="item[2]" class="nt">{{ item[2] }}</div>
+          <span v-if="item[4]" class="cost">{{ item[4] }}</span>
+          <br v-if="item[4]">
+          
+          <!-- 按鈕連結區 -->
+          <template v-if="item[3]">
+            <template v-if="Array.isArray(item[3])">
+              <a v-for="(b, bi) in item[3]" :key="bi" class="btn" :class="b[2]" target="_blank" rel="noopener" :href="getMapUrl(b[1])">{{ b[0] }}</a>
+            </template>
+            <template v-else>
+              <a class="btn" :class="{ r: isHttp(item[3]) }" target="_blank" rel="noopener" :href="getMapUrl(item[3])">
+                {{ isHttp(item[3]) ? '🧭 路線導航' : '📍 導航' }}
+              </a>
+            </template>
+          </template>
+        </div>
+      </div>
+      <div class="est">💴 當日預估花費（未預付，兩人）：約 ¥{{ currentDayData.e.toLocaleString() }}</div>
+    </template>
+
+    <!-- Tab 1: 交通 -->
+    <template v-else-if="tab === 1">
+      <h2>🚆 交通</h2>
+      <p class="sub">票價為估計值（每人），請以 Google Map 即時確認</p>
+      <div v-for="(row, idx) in transports" :key="idx" class="card">
+        <div class="nt">{{ row[0] }}</div>
+        <h3>{{ row[1] }}</h3>
+        <div class="nt">{{ row[2] }} ｜ {{ row[3] }} ｜ {{ row[4] }}</div>
+        <a v-if="row[5]" class="btn r" target="_blank" rel="noopener" :href="getMapUrl(row[5])">🧭 路線導航</a>
+      </div>
+    </template>
+
+    <!-- Tab 2: 住宿 -->
+    <template v-else-if="tab === 2">
+      <h2>🏨 住宿</h2>
+      <p class="sub">精確地址請看訂房確認信</p>
+      <div v-for="(row, idx) in hotels" :key="idx" class="card">
+        <div class="nt">{{ row[0] }}</div>
+        <h3>{{ row[1] }}</h3>
+        <div class="nt">{{ row[2] }}</div>
+        <a v-if="row[3]" class="btn" target="_blank" rel="noopener" :href="getMapUrl(row[3])">📍 導航</a>
+      </div>
+    </template>
+
+    <!-- Tab 3: 行李 -->
+    <template v-else-if="tab === 3">
+      <h2>🎒 行李清單</h2>
+      <p class="sub">勾選會存在這支手機的瀏覽器</p>
+      <div v-for="(group, gi) in packing" :key="gi" class="card">
+        <h3>{{ group[0] }}</h3>
+        <label v-for="(item, ii) in group.slice(1)" :key="ii" :class="{ d: pk[`${gi}-${ii}`] }">
+          <input type="checkbox" v-model="pk[`${gi}-${ii}`]">
+          <span>{{ item }}</span>
+        </label>
+      </div>
+    </template>
+
+    <!-- Tab 4: 預算 -->
+    <template v-else-if="tab === 4">
+      <h2>💰 預算</h2>
+      <div class="card">
+        <h3>已預付（兩人）</h3>
+        <div v-for="(row, idx) in budgets" :key="idx" class="row">
+          <span>{{ row[0] }}</span><b>{{ row[1] }}</b>
+        </div>
+        <div class="row"><span>合計</span><b>NT$66,895 ＋ ¥96,578</b></div>
+      </div>
+      <div class="card">
+        <h3>當地每日預估（兩人）</h3>
+        <div v-for="(day, idx) in days" :key="idx" style="padding: 4px 0">
+          <div class="row" style="border: 0; padding: 0">
+            <span>{{ day.d }} {{ day.t }}</span><b>¥{{ day.e.toLocaleString() }}</b>
+          </div>
+          <div class="bar">
+            <i :style="{ width: Math.round(day.e / maxBudget * 100) + '%' }"></i>
+          </div>
+        </div>
+        <div class="row">
+          <span>合計（不含伴手禮）</span><b>約 ¥{{ totalBudget.toLocaleString() }}</b>
+        </div>
+      </div>
+    </template>
+  </main>
+
+  <!-- 底部導覽列 -->
+  <nav>
+    <button 
+      v-for="(navItem, idx) in navs" 
+      :key="idx" 
+      :class="{ on: tab === idx }"
+      @click="setTab(idx)"
+    >
+      <b>{{ navItem[0] }}</b>{{ navItem[1] }}
+    </button>
+  </nav>
+</div>
+
+<!-- 載入 Vue 3 (ES Module) -->
+<script type="module">
+  import { createApp, ref, reactive, computed, watch, onMounted } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+
+  const MAPS_BASE = "https://maps.app.goo.gl/";
+
+  createApp({
+    setup() {
+      const tab = ref(0);
+      const cur = ref(0);
+      const pk = reactive({});
+
+      // 1. 行程資料
+      const days = [
+        {d:"10/9 五",t:"台北 → 東京",e:4500,i:[
+          ["12:30","計程車 → 桃園機場 T2","已預約 55688，約 50–60 分","桃園國際機場第二航廈","NT$950 已付"],
+          ["13:30","T2 報到托運","CI106 16:30 起飛｜訂位代號 EYGC8X｜機票號碼 297 2425346927",[["🎫 Mifa 機票","https://drive.google.com/file/d/1ZpBJGt3AVilBCebCHvB7U-ZIqnuEgnkU/view?usp=sharing","r"],["🎫 Weii 機票","https://drive.google.com/file/d/1lt-Sp-Qt3ySFJv4YJZVMEB6oxwNhZenf/view?usp=sharing","r"]]],
+          ["20:55","抵達成田 T2、入境","入境約 45–60 分","成田國際機場第2航廈"],
+          ["22:00","成田 T2 → 錦糸町（兩種方式擇一）","① 京成 Access Express → 押上 → 半藏門線，約 75–90 分，先查末班車。② 機場巴士：我沒查到成田直達錦糸町的巴士；確定有的是「東京シャトル」到東京站（約 ¥1,300，預約 ¥900，深夜早朝 ¥2,600），再轉 JR 總武快速約 10 分到錦糸町，請先確認班次",[["🚆 京成 Access Express","https://maps.app.goo.gl/6ZXdDjkR63xLUjBG8","r"],["🚌 機場巴士路線","https://www.google.com/maps/dir/?api=1&origin=成田空港第2ターミナル&destination=相鉄フレッサイン東京錦糸町&travelmode=transit",""]],"電車約 ¥1,500/人"],
+          ["23:30","入住 相鐵 Fresa Inn 錦糸町","Klook｜〒130-0022 東京都墨田区江東橋2-18-7｜JR 錦糸町站南口步行約 3 分｜入住 15:00／退房 11:00","相鉄フレッサイン東京錦糸町 東京都墨田区江東橋2-18-7"]
+        ]},
+        {d:"10/10 六",t:"東京晨跑 / 史努比博物館",e:27000,i:[
+          ["07:15","錦糸町 → 東京站（JR 總武快速）","約 10 分",MAPS_BASE+"C13sczxtSBajR9jM8","約 ¥170/人"],
+          ["07:45","ASICS RUN TOKYO MARUNOUCHI 皇居晨跑","約 5 km＋淋浴；付費設施，請看官網","ASICS RUN TOKYO MARUNOUCHI"],
+          ["09:30","早餐：東京拉麵街或丸之內咖啡廳","","東京ラーメンストリート","約 ¥2,000"],
+          ["10:00","東京 → 澀谷 → 田園都市線 → 南町田","約 65 分",MAPS_BASE+"YvVAZT2cRjJe7dZs5","約 ¥550/人"],
+          ["11:30","史努比博物館","KKday 憑證備好","スヌーピーミュージアム 町田","已付 NT$880"],
+          ["14:15","PEANUTS Cafe 下午茶","請確認是館內 Cafe 或其他分店","","約 ¥2,500"],
+          ["15:30","逛 Grandberry Park 商場","","南町田グランベリーパーク"],
+          ["17:00","回澀谷自由逛","選項：澀谷 SKY 看夜景（另購票）","SHIBUYA SKY"],
+          ["20:00","晚餐：烤肉激素 新井屋 Hanare","",MAPS_BASE+"gF3q2VYCD7D9GPaz5","約 ¥14,000"],
+          ["22:00","澀谷 → 錦糸町（半藏門線）回飯店","約 20 分",MAPS_BASE+"xPGcDREthQXhSW7x7","約 ¥280/人"]
+        ]},
+        {d:"10/11 日",t:"池袋 → 出雲",e:12000,i:[
+          ["09:30","退房，錦糸町 → 池袋，行李寄置物櫃","約 35 分",MAPS_BASE+"W2wZTgiiM75XevDYA","櫃約 ¥600"],
+          ["10:30","池袋 Sunshine City","水族館／寶可夢中心／展望台擇一","サンシャインシティ","門票 ¥1,000–2,600"],
+          ["12:30","午餐：Sunshine City 美食街","","","約 ¥3,000"],
+          ["14:15","池袋 → 羽田機場 T1（山手線→品川→京急）","約 55 分",MAPS_BASE+"dH2RWsrYW7i4QMcf8","約 ¥600/人"],
+          ["15:30","羽田 T1 南翼 JAL 報到","注意是第 1 航廈，不是第 2","羽田空港第1ターミナル"],
+          ["16:55","JAL 羽田 → 出雲，18:25 抵達","已付 NT$10,486","出雲縁結び空港"],
+          ["19:00","機場巴士 → 出雲市站","約 25–30 分，約 ¥630/人（待確認）；先查末班",MAPS_BASE+"sq7XJ6ftJ9uN3qAo9"],
+          ["20:00","入住 出雲 Dormy Inn，晚餐在市站周邊","","ドーミーイン出雲","餐約 ¥6,000"],
+          ["21:30","夜鳴きそば、大浴場","時間依館方"]
+        ],w:"10/11 17:00 開幕式在出雲市民會館，你 18:25 才抵達，會錯過。"},
+        {d:"10/12 一",t:"出雲驛傳 ⭐",e:14000,i:[
+          ["07:00","飯店 → 出雲大社","賽事管制可能繞路；約 25–35 分",MAPS_BASE+"aiAioyKsn1zNNMz88","約 ¥450/人"],
+          ["08:00","勢溜（正面鳥居前）卡位","起點人潮多，早到","出雲大社 正面鳥居 勢溜"],
+          ["09:10","第 38 回出雲驛傳開跑","6 區間 45.1 km，終點出雲巨蛋，約 11:30 結束"],
+          ["09:40","參拜出雲大社","拜殿、本殿、神楽殿約 1.5 小時（二禮四拍手一禮）","出雲大社"],
+          ["11:30","神門通午餐：出雲蕎麥麵＋善哉","荒木屋或羽根屋","荒木屋 出雲大社","約 ¥3,500"],
+          ["14:00","步行 → 稻佐之濱","約 20 分",MAPS_BASE+"NxuHJmWcR4ztYfts9"],
+          ["15:08","巴士 → 日御碕","先確認這班存在；約 ¥500/人",MAPS_BASE+"bcJoWMLySJMwwYcH7"],
+          ["15:40","日御碕神社＋燈塔","燈塔約 ¥300/人","日御碕灯台"],
+          ["17:30","搭巴士回出雲市站","末班 18:07，建議早一班；約 ¥800/人",MAPS_BASE+"bpWiZmJTB5qQ6wmp6"],
+          ["19:30","晚餐：出雲市站周邊","","出雲市駅 レストラン","約 ¥6,000"]
+        ],w:"10/12 為運動之日連假，路線與巴士可能有管制，早點出發。"},
+        {d:"10/13 二",t:"松江城 → 大阪",e:18000,i:[
+          ["08:15","退房，出雲市站 → 松江站（JR）","約 30–45 分；行李帶著走","","約 ¥600–1,100/人"],
+          ["09:15","松江城","Lake Line 巴士或步行 20 分；天守約 ¥680/人","松江城"],
+          ["11:30","午餐：松江站周邊","蕎麥／宍道湖鰻魚飯","松江駅 ランチ","約 ¥4,000"],
+          ["12:45","JR 回出雲市站 → 巴士到出雲機場","12:45 前務必離開松江","出雲縁結び空港","約 ¥1,500/人"],
+          ["14:30","機場報到","JAL 16:00 → 16:45 抵伊丹，已付 NT$6,970"],
+          ["17:30","伊丹 → 心齋橋／四橋","利木津巴士或單軌＋阪急＋地鐵，約 60–70 分","Via Inn Prime Shinsaibashi Yotsubashi","約 ¥900/人"],
+          ["19:00","橘街（堀江）晚餐／咖啡","","橘通り 堀江 大阪","約 ¥6,000"]
+        ]},
+        {d:"10/14 三",t:"天橋立／伊根",e:9500,i:[
+          ["集合","依 KKday 憑證集合","多為 07:30–08:30 梅田／大阪站附近","","已付 NT$4,123"],
+          ["日間","伊根舟屋、天橋立","傘松公園、智恩寺；午餐自理","天橋立","午餐約 ¥3,500"],
+          ["19:00","晚餐：道頓堀「美津の」大阪燒","","美津の 道頓堀","約 ¥5,000"]
+        ]},
+        {d:"10/15 四",t:"天滿宮 / 中崎町 / 梅田",e:15000,i:[
+          ["09:00","四橋 → 大阪天滿宮（地鐵約 25 分）","","大阪天満宮","約 ¥240/人"],
+          ["11:00","天神橋筋商店街散步＋午餐","","天神橋筋商店街","約 ¥3,500"],
+          ["13:30","中崎町咖啡廳巷弄","","中崎町","約 ¥2,000"],
+          ["15:30","梅田購物 Grand Front／阪急","選項：空中庭園約 ¥1,500/人","グランフロント大阪"],
+          ["19:00","晚餐：新梅田食道街","串炸／居酒屋","新梅田食道街","約 ¥7,000"],
+          ["21:00","回飯店打包行李","","","交通約 ¥1,000"]
+        ]},
+        {d:"10/16 五",t:"大阪 → 台北",e:8000,i:[
+          ["09:30","退房，四橋 → 難波（地鐵）","","","約 ¥240/人"],
+          ["10:00","南海電鐵 難波 → 關西機場","Rapi:t 或空港急行約 40–50 分","南海難波駅","約 ¥970–1,500/人"],
+          ["11:15","KIX T1：退稅、伴手禮、午餐","","関西国際空港 第1ターミナル","約 ¥2,500"],
+          ["12:00","CI153 報到托運","14:00 起飛，16:00 抵桃園"]
+        ]}
+      ];
+
+      // 2. 交通資料
+      const transports = [
+        ["Day1","成田 T2 → 錦糸町","京成 Access Express＋半藏門線","75–90 分","¥1,500",MAPS_BASE+"6ZXdDjkR63xLUjBG8"],
+        ["Day2","錦糸町 → 東京站","JR 總武快速","10 分","¥170",MAPS_BASE+"C13sczxtSBajR9jM8"],
+        ["Day2","錦糸町 → 南町田","JR＋山手＋田園都市線","65 分","¥550",MAPS_BASE+"YvVAZT2cRjJe7dZs5"],
+        ["Day2","南町田 → 澀谷","田園都市線","40 分","¥340",MAPS_BASE+"gF3q2VYCD7D9GPaz5"],
+        ["Day2","澀谷 → 錦糸町","半藏門線","20 分","¥280",MAPS_BASE+"xPGcDREthQXhSW7x7"],
+        ["Day3","錦糸町 → 池袋","電車","35 分","¥230",MAPS_BASE+"W2wZTgiiM75XevDYA"],
+        ["Day3","池袋 → 羽田 T1","山手線＋京急","55 分","¥600",MAPS_BASE+"dH2RWsrYW7i4QMcf8"],
+        ["Day3","羽田 → 出雲（JAL）","飛機 16:55→18:25","1.5 小時","已付",""],
+        ["Day3","出雲機場 → 出雲市站","機場巴士","25–30 分","¥630",MAPS_BASE+"sq7XJ6ftJ9uN3qAo9"],
+        ["Day4","飯店 → 出雲大社","巴士／一畑電車","25–35 分","¥450",MAPS_BASE+"aiAioyKsn1zNNMz88"],
+        ["Day4","大社 → 稻佐之濱","步行","20 分","免費",MAPS_BASE+"NxuHJmWcR4ztYfts9"],
+        ["Day4","稻佐之濱 → 日御碕","一畑巴士（15:08）","20–30 分","¥500",MAPS_BASE+"bcJoWMLySJMwwYcH7"],
+        ["Day4","日御碕 → 出雲市站","一畑巴士（末班 18:07）","約 60 分","¥800",MAPS_BASE+"bpWiZmJTB5qQ6wmp6"],
+        ["Day5","出雲 → 松江","JR","30–45 分","¥600–1,100",""],
+        ["Day5","出雲 → 大阪伊丹（JAL）","飛機 16:00→16:45","45 分","已付",""],
+        ["Day8","難波 → 關西機場","南海電鐵","40–50 分","¥970–1,500",""]
+      ];
+
+      // 3. 住宿資料
+      const hotels = [
+        ["10/9, 10/10（2 晚）","相鐵 Fresa Inn 東京錦糸町","〒130-0022 東京都墨田区江東橋2-18-7｜JR 錦糸町站南口步行約 3 分｜Klook 訂｜¥56,602｜入住 15:00／退房 11:00","相鉄フレッサイン東京錦糸町 東京都墨田区江東橋2-18-7"],
+        ["10/11, 10/12（2 晚）","出雲 Dormy Inn","近 JR 出雲市站｜樂天旅遊｜NT$11,671｜大浴場、夜鳴きそば","ドーミーイン出雲"],
+        ["10/13–10/15（3 晚）","Via Inn Prime Shinsaibashi Yotsubashi","心齋橋／四橋｜Booking｜¥39,976","Via Inn Prime Shinsaibashi Yotsubashi"]
+      ];
+
+      // 4. 行李資料
+      const packing = [
+        ["證件","護照（效期 6 個月以上）","Visit Japan Web QR","電子機票／登機證","訂房與 KKday 憑證（離線存檔）"],
+        ["金錢","日幣現金 ¥70,000–90,000","信用卡（cube 卡）","Suica／ICOCA","零錢（鄉下巴士）"],
+        ["電子","手機＋行動電源（隨身）","日規轉接頭（100V 雙孔）","充電線","eSIM／網卡（尚未購買）","離線地圖"],
+        ["跑步","跑鞋、跑步服","運動內衣褲、襪","小毛巾"],
+        ["衣物","薄外套＋防雨外套","洋蔥式穿搭（15–24°C）","折傘","海邊保暖圍巾"],
+        ["雜物","個人藥品、OK 繃","防曬","環保袋","折疊後背包","旅平險保單確認"]
+      ];
+
+      // 5. 預算資料
+      const budgets = [
+        ["機票（華航）","NT$31,218"],["國內線 東京→出雲","NT$10,486"],["國內線 出雲→大阪","NT$6,970"],
+        ["出雲住宿","NT$11,671"],["Snoopy 博物館","NT$880"],["天橋立一日遊","NT$4,123"],
+        ["去程計程車","NT$950"],["旅平險","NT$597"],["東京住宿","¥56,602"],["大阪住宿","¥39,976"]
+      ];
+
+      const navs = [["📅","行程"],["🚆","交通"],["🏨","住宿"],["🎒","行李"],["💰","預算"]];
+
+      // 計算屬性
+      const currentDayData = computed(() => days[cur.value]);
+      const totalBudget = computed(() => days.reduce((a, d) => a + d.e, 0));
+      const maxBudget = computed(() => Math.max(...days.map(d => d.e)));
+
+      // 方法
+      const isHttp = (url) => /^http/.test(url);
+      const getMapUrl = (x) => isHttp(x) ? x : "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(x);
+
+      const setCur = (i) => {
+        cur.value = i;
+        window.scrollTo(0, 0);
+      };
+
+      const setTab = (i) => {
+        tab.value = i;
+        window.scrollTo(0, 0);
+      };
+
+      // 本地存儲處理
+      onMounted(() => {
+        try {
+          const saved = JSON.parse(localStorage.getItem("pk") || "{}");
+          Object.assign(pk, saved);
+        } catch (e) {
+          console.error(e);
+        }
+      });
+
+      watch(pk, (newPk) => {
+        try {
+          localStorage.setItem("pk", JSON.stringify(newPk));
+        } catch (e) {
+          console.error(e);
+        }
+      }, { deep: true });
+
+      return {
+        tab, cur, pk, days, transports, hotels, packing, budgets, navs,
+        currentDayData, totalBudget, maxBudget,
+        isHttp, getMapUrl, setCur, setTab
+      };
+    }
+  }).mount('#app');
+</script>
+
+</body>
+</html>
