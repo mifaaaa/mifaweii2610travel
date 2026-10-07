@@ -50,7 +50,7 @@
     .it:before { content: ""; position: absolute; left: -23px; top: 14px; width: 11px; height: 11px; border-radius: 50% 45% 50% 48%; background: var(--ac); border: 2px solid var(--panel); }
     .tm { font: 15px var(--hw); color: var(--ac); }
     .tt { font-weight: 600; }
-    .nt { font-size: 13px; color: var(--mut); }
+    .nt { font-size: 13px; color: var(--mut); white-space: pre-line; }
     .cost { display: inline-block; font: 12.5px var(--hw); background: var(--soft); color: var(--ac); border-radius: 9px 6px 10px 6px; padding: 1px 8px; margin-top: 3px; }
     .btn { display: inline-block; margin: 6px 6px 0 0; background: var(--ac); color: var(--on); text-decoration: none; border-radius: 15px 10px 16px 9px/10px 16px 9px 15px; padding: 4px 13px; font: 14px var(--hw); }
     .btn.r { background: var(--ac2); }
@@ -226,7 +226,7 @@
       // 行程資料 (修正按鈕陣列位置: [時間, 標題, 說明, 按鈕或地圖位置, 費用])
       const days = [
         {d:"10/9 五",t:"台北 → 東京",e:4500,i:[
-          ["12:30","計程車 → 桃園機場 T2","已預約 55688，約 50–60 分","桃園國際機場第二航廈","NT$950 已付"],
+          ["12:30","計程車 → 桃園機場 T2","已預約 55688，約 50–60 分\n訂單編號：2026100500123\n司機：羅奕鈞｜車號：RCX-6520｜電話：0926235237","桃園國際機場第二航廈","NT$950 已付"],
           ["13:30","T2 報到托運","CI106 16:30 起飛｜訂位代號 EYGC8X",[["🎫 Mifa 機票","https://drive.google.com/file/d/1ZpBJGt3AVilBCebCHvB7U-ZIqnuEgnkU/view?usp=sharing","r"],["🎫 Weii 機票","https://drive.google.com/file/d/1lt-Sp-Qt3ySFJv4YJZVMEB6oxwNhZenf/view?usp=sharing","r"]]],
           ["20:55","抵達成田 T2、入境","入境約 45–60 分","成田國際機場第2航廈"],
           ["22:00","成田 T2 → 錦糸町（兩種方式擇一）","① 京成 Access Express → 押上 → 半藏門線，約 75–90 分。② 機場巴士：成田直達錦糸町無巴士，可搭「東京シャトル」到東京站（約 ¥1,300），再轉 JR 總武快速約 10 分到錦糸町",[["🚆 京成 Access Express","https://maps.app.goo.gl/6ZXdDjkR63xLUjBG8","r"],["🚌 機場巴士路線","https://www.google.com/maps/dir/?api=1&origin=成田空港第2ターミナル&destination=相鉄フレッサイン東京錦糸町&travelmode=transit",""]],"電車約 ¥1,500/人"],
