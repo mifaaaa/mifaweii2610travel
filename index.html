@@ -307,6 +307,10 @@
     setup() {
       const tab = ref(0);
       const cur = ref(0);
+      // Use the destination time zone even when the browser is in Taiwan.
+      const tripDate = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+      const tripDates = Array.from({ length: 8 }, (_, i) => '2026-10-' + String(9 + i).padStart(2, '0'));
+      const cur = ref(Math.max(0, tripDates.indexOf(tripDate)));
       const pk = reactive({});
       const cloudAvailable = ref(!!window.supabase);
       const cloudUser = ref(null), memberName = ref(''), memberReady = ref(false);
