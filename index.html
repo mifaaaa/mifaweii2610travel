@@ -122,6 +122,15 @@
     <template v-if="tab === 0">
       <h2>{{ currentDayData.d }}｜{{ currentDayData.t }}</h2>
       <div v-if="currentDayData.w" class="warn">⚠ {{ currentDayData.w }}</div>
+      <aside v-if="cur === 2" class="card" style="border:2px solid var(--ac2);margin-top:12px" aria-label="行李寄放位置">
+        <h3>🧳 今天的行李寄放位置</h3>
+        <p class="nt"><b>首選｜池袋站東口（北）PARCO 前</b><br>JR 北改札外 →「いけふくろう」貓頭鷹雕像附近 → 階梯後方置物櫃室。<br>有 L 型櫃；06:00–22:00。櫃位未預約，空位與尺寸請現場／查詢頁確認。</p>
+        <a class="btn r" href="https://media.jreast.co.jp/articles/5026" target="_blank" rel="noopener">📍 官方位置圖</a>
+        <a class="btn" href="https://multiecube.com/station/35" target="_blank" rel="noopener">🧳 空位／預約</a>
+        <p class="nt"><b>備案｜Sunshine City B1 地下通道／alpa B1 広小路</b><br>一般 08:00–22:00；大型 ¥1,000，約高 86.8 × 寬 35.5 × 深 64.5 cm，部分櫃位尺寸不同。</p>
+        <a class="btn r" href="https://sunshinecity.jp/information/guide.html" target="_blank" rel="noopener">📍 商場櫃位／樓層圖</a>
+        <div class="est">取件提醒：13:00 離開商場；寄商場先取、寄車站回站再取。13:30 前搭車去羽田。拍下櫃號、位置並保留取件憑證。</div>
+      </aside>
       <div class="tl">
         <div v-for="(item, idx) in currentDayData.i" :key="idx" class="it">
           <div class="tm">{{ item[0] }}</div>
@@ -503,12 +512,18 @@
           ["20:00","晚餐：烤肉激素 新井屋 Hanare","已預約；預約資料請查看私人確認信",[["📍 導航",MAPS_BASE+"gF3q2VYCD7D9GPaz5",""]],"約 ¥14,000"],
           ["22:00","澀谷 → 錦糸町回飯店","半藏門線｜約 30–35 分（另加候車步行）",MAPS_BASE+"xPGcDREthQXhSW7x7","約 ¥280/人"]
         ]},
-        {d:"10/11 日",t:"池袋 → 出雲",e:12000,i:[
-          ["09:30","退房，錦糸町 → 池袋，行李寄置物櫃","約 35 分",MAPS_BASE+"W2wZTgiiM75XevDYA","櫃約 ¥600"],
-          ["10:30","池袋 Sunshine City","吉伊卡哇快閃店／keroro／美金濃泳具","サンシャインシティ"],
-          ["12:30","午餐：Sunshine City 美食街","","","約 ¥3,000"],
-          ["14:15","池袋 → 羽田機場 T1（山手線→品川→京急）","約 55 分",MAPS_BASE+"dH2RWsrYW7i4QMcf8","約 ¥600/人"],
-          ["15:30","羽田 T1 南翼 JAL 報到","第 1 航廈；訂位資料請查看私人確認信","羽田空港第1ターミナル"],
+        {d:"10/11 日",t:"飯店早餐 / 池袋 Keroro → 出雲",e:12000,w:"行李首選寄池袋站東口（北），滿櫃改 Sunshine City B1。13:00 離開商場、13:30 前搭車，目標 15:00 前抵羽田 T1。",i:[
+          ["09:00–09:15","起床、梳洗","行李已整理好，梳洗後下樓吃早餐。"],
+          ["09:15–09:55","飯店早餐：四季百選","飯店 1 樓；早餐 06:30–10:00，最後入場 09:30。若住宿未含早餐，成人 ¥1,900／人。",[["🍳 早餐資訊","https://sotetsu-hotels.com/fresa-inn/kinshicho/cuisine/","r"]]],
+          ["10:00","退房，帶行李前往錦糸町站","今天行李帶去池袋，不寄放飯店。"],
+          ["10:10–10:55 預估","錦糸町 → 池袋","JR 總武線各站停車往秋葉原；轉山手線往上野、池袋方向。含候車、轉乘抓約 40–45 分鐘；依當天導航調整。",[["🚆 到池袋站","https://www.google.com/maps/dir/?api=1&origin=%E9%8C%A6%E7%B3%B8%E7%94%BA%E9%A7%85&destination=%E6%B1%A0%E8%A2%8B%E9%A7%85&travelmode=transit","r"]]],
+          ["10:55–11:10","🧳 寄行李：池袋站東口（北）PARCO 前","首選：JR 北改札外，沿「東口（北）／PARCO／いけふくろう」指標，找貓頭鷹雕像附近階梯後方的置物櫃室。有 L 型櫃，06:00–22:00；實際空位、尺寸與價格以查詢頁／現場為準。拍下櫃號、周圍地標，保留取件憑證。找櫃最多 15 分鐘，滿櫃就用下方 Sunshine City 備案。",[["🧳 池袋站櫃位／預約","https://multiecube.com/station/35","r"],["📍 官方位置圖","https://media.jreast.co.jp/articles/5026","r"]]],
+          ["11:10–11:30","步行 → Sunshine City","從池袋東口步行前往，預留約 20 分鐘。若車站櫃滿，先到 Sunshine City B1 地下通道／alpa B1 広小路寄行李，再逛店。",[["🚶 到商場","https://www.google.com/maps/dir/?api=1&origin=%E6%B1%A0%E8%A2%8B%E9%A7%85+%E6%9D%B1%E5%8F%A3&destination=%E3%82%B5%E3%83%B3%E3%82%B7%E3%83%A3%E3%82%A4%E3%83%B3%E3%82%B7%E3%83%86%E3%82%A3&travelmode=walking","r"]]],
+          ["11:30–12:20","Keroro 軍曹「ケロッ！とマート」","World Import Mart 大樓 3 樓，Bandai Namco Cross Store 東京內；10:00–21:00。優先逛 Keroro，有時間再看其他商店。",[["🐸 官方店資訊","https://bandainamco-am.co.jp/official_shop/keroro-mart/","r"],["📍 Cross Store 位置","バンダイナムコ Cross Store 東京",""]]],
+          ["12:20–13:00","午餐：Sunshine City 內就近用餐","不安排藏壽司，選不用久候的餐廳；13:00 前結束用餐。","","約 ¥3,000（兩人估算）"],
+          ["13:00–13:25","🧳 回池袋站、取行李、進站","若寄車站：走回東口（北）PARCO 前的原櫃位取件，再進 JR 改札。若寄 Sunshine City：13:00 先在商場取件，再走回池袋站。務必帶好所有行李，預留進站與找月台時間。",[["🚶 回池袋站","https://www.google.com/maps/dir/?api=1&origin=%E3%82%B5%E3%83%B3%E3%82%B7%E3%83%A3%E3%82%A4%E3%83%B3%E3%82%B7%E3%83%86%E3%82%A3&destination=%E6%B1%A0%E8%A2%8B%E9%A7%85+%E6%9D%B1%E5%8F%A3&travelmode=walking","r"]]],
+          ["13:30 前","池袋 → 品川 → 羽田機場 T1","山手線內回り往新宿、澀谷、品川；品川轉京急往「羽田空港第1・第2ターミナル」。不要在第3航廈下車。站到站約 55–70 分鐘估算，另留走到出發大廳時間；出發前確認即時班次。",[["✈️ 前往羽田 T1","https://www.google.com/maps/dir/?api=1&origin=%E6%B1%A0%E8%A2%8B%E9%A7%85&destination=%E7%BE%BD%E7%94%B0%E7%A9%BA%E6%B8%AF%E7%AC%AC1%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB&travelmode=transit","r"]]],
+          ["14:30–14:45 預估","抵達羽田 T1，JAL 南翼報到／托運","目標 15:00 前到出發大廳。第1航廈 2 樓，JAL 南翼；航班時間與報到資訊以機票／JAL 當日通知為準，訂位資料請查看私人確認信。","羽田空港第1ターミナル"],
           ["16:55","JAL 羽田 → 出雲，18:25 抵達","已付 NT$10,486","出雲縁結び空港"],
           ["19:00","機場巴士 → 出雲市站","約 25–30 分，約 ¥630/人",MAPS_BASE+"sq7XJ6ftJ9uN3qAo9"],
           ["20:00","入住 出雲 Dormy Inn，晚餐在市站周邊","","ドーミーイン出雲","餐約 ¥6,000"],
@@ -562,8 +577,8 @@
         ["Day2","錦糸町 PARCO → 史努比博物館","半藏門線＋田園都市線；依班次直通或轉車","含步行候車約 90–105 分","依實際路線","https://www.google.com/maps/dir/?api=1&origin=%E9%8C%A6%E7%B3%B8%E7%94%BAPARCO+%E6%9D%B1%E4%BA%AC%E9%83%BD%E5%A2%A8%E7%94%B0%E5%8C%BA%E6%B1%9F%E6%9D%B1%E6%A9%8B4-27-14&destination=%E3%82%B9%E3%83%8C%E3%83%BC%E3%83%94%E3%83%BC%E3%83%9F%E3%83%A5%E3%83%BC%E3%82%B8%E3%82%A2%E3%83%A0+%E6%9D%B1%E4%BA%AC%E9%83%BD%E7%94%BA%E7%94%B0%E5%B8%82%E9%B6%B4%E9%96%933-1-4&travelmode=transit"],
         ["Day2","南町田 → 澀谷","田園都市線","40 分","¥340",MAPS_BASE+"gF3q2VYCD7D9GPaz5"],
         ["Day2","澀谷 → 錦糸町","半藏門線","約 30–35 分（另加候車步行）","¥280",MAPS_BASE+"xPGcDREthQXhSW7x7"],
-        ["Day3","錦糸町 → 池袋","電車","35 分","¥230",MAPS_BASE+"W2wZTgiiM75XevDYA"],
-        ["Day3","池袋 → 羽田 T1","山手線＋京急","55 分","¥600",MAPS_BASE+"dH2RWsrYW7i4QMcf8"],
+        ["Day3", "錦糸町 → 池袋", "總武線各站停車→秋葉原→山手線", "含候車轉乘約 40–45 分", "依當天路線", "https://www.google.com/maps/dir/?api=1&origin=%E9%8C%A6%E7%B3%B8%E7%94%BA%E9%A7%85&destination=%E6%B1%A0%E8%A2%8B%E9%A7%85&travelmode=transit"],
+        ["Day3", "池袋 → 羽田 T1（13:30 前搭車）", "山手線內回り→品川→京急", "站到站約 55–70 分，另留步行時間", "依當天路線", "https://www.google.com/maps/dir/?api=1&origin=%E6%B1%A0%E8%A2%8B%E9%A7%85&destination=%E7%BE%BD%E7%94%B0%E7%A9%BA%E6%B8%AF%E7%AC%AC1%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB&travelmode=transit"],
         ["Day3","羽田 → 出雲（JAL）","飛機 16:55→18:25","1.5 小時","已付",""],
         ["Day3","出雲機場 → 出雲市站","機場巴士","25–30 分","¥630",MAPS_BASE+"sq7XJ6ftJ9uN3qAo9"],
         ["Day4","飯店 → 出雲大社","巴士／一畑電車","25–35 分","¥450",MAPS_BASE+"aiAioyKsn1zNNMz88"],
