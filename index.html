@@ -83,6 +83,7 @@
   </style>
 </head>
 <body>
+
 <div id="app" v-cloak>
   <!-- 頁首 -->
   <header>
@@ -101,6 +102,7 @@
       <path d="M0 129Q200 125 400 130V132H0Z" fill="#3d6c80"/>
     </svg>
   </header>
+
   <!-- 日期 Chips 列 (僅在行程 Tab 顯示) -->
   <div v-if="tab === 0" class="chips">
     <button 
@@ -113,6 +115,7 @@
       <b>{{ day.d.split(' ')[0] }}</b>{{ day.d.split(' ')[1] }}
     </button>
   </div>
+
   <!-- 主要內容區 -->
   <main>
     <!-- Tab 0: 行程 -->
@@ -126,7 +129,6 @@
         <a class="btn" href="https://multiecube.com/station/35" target="_blank" rel="noopener">🧳 空位／預約</a>
         <p class="nt"><b>備案｜Sunshine City B1 地下通道／alpa B1 広小路</b><br>一般 08:00–22:00；大型 ¥1,000，約高 86.8 × 寬 35.5 × 深 64.5 cm，部分櫃位尺寸不同。</p>
         <a class="btn r" href="https://sunshinecity.jp/information/guide.html" target="_blank" rel="noopener">📍 商場櫃位／樓層圖</a>
-        <div class="est">取件提醒：13:00 離開商場；寄商場先取、寄車站回站再取。13:30 前搭車去羽田。拍下櫃號、位置並保留取件憑證。</div>
         <div class="est">取件提醒：13:10 離開商場；寄商場先取、寄車站回站再取。13:40 左右搭車去羽田。拍下櫃號、位置並保留取件憑證。</div>
       </aside>
       <div class="tl">
@@ -152,6 +154,7 @@
       </div>
       <div class="est">💴 當日預估花費（未預付，兩人）：約 ¥{{ currentDayData.e.toLocaleString() }}</div>
     </template>
+
     <!-- Tab 1: 交通 -->
     <template v-else-if="tab === 1">
       <h2>🚆 交通</h2>
@@ -163,6 +166,7 @@
         <a v-if="row[5]" class="btn r" target="_blank" rel="noopener" :href="getMapUrl(row[5])">🧭 路線導航</a>
       </div>
     </template>
+
     <!-- Tab 2: 住宿 -->
     <template v-else-if="tab === 2">
       <h2>🏨 住宿</h2>
@@ -174,6 +178,7 @@
         <a v-if="row[3]" class="btn" target="_blank" rel="noopener" :href="getMapUrl(row[3])">📍 導航</a>
       </div>
     </template>
+
     <!-- Tab 3: 行李 -->
     <template v-else-if="tab === 3">
       <h2>🎒 行李清單</h2>
@@ -186,6 +191,7 @@
         </label>
       </div>
     </template>
+
     <!-- Tab 4: 預算 -->
     <template v-else-if="tab === 4">
       <h2>💰 預算</h2>
@@ -265,6 +271,7 @@
           </div>
         </template>
       </section>
+
       <div class="card">
         <h3>已預付（兩人）</h3>
         <div v-for="(row, idx) in budgets" :key="idx" class="row">
@@ -288,6 +295,7 @@
       </div>
     </template>
   </main>
+
   <!-- 底部導覽列 -->
   <nav>
     <button 
@@ -300,18 +308,21 @@
     </button>
   </nav>
 </div>
+
 <script>
   const MAPS_BASE = "https://maps.app.goo.gl/";
+
   const { createApp, ref, reactive, computed, watch, onMounted, onUnmounted } = Vue;
+
   createApp({
     setup() {
       const tab = ref(0);
-      const cur = ref(0);
       // Use the destination time zone even when the browser is in Taiwan.
       const tripDate = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
       const tripDates = Array.from({ length: 8 }, (_, i) => '2026-10-' + String(9 + i).padStart(2, '0'));
       const cur = ref(Math.max(0, tripDates.indexOf(tripDate)));
       const pk = reactive({});
+
       const cloudAvailable = ref(!!window.supabase);
       const cloudUser = ref(null), memberName = ref(''), memberReady = ref(false);
       const cloudError = ref(''), cloudStatus = ref('正在確認登入狀態…');
@@ -480,6 +491,7 @@
         document.removeEventListener('visibilitychange',syncVisible);
         for (const event of ['focus','online','offline']) window.removeEventListener(event,syncVisible);
       });
+
       // 行程資料 (修正按鈕陣列位置: [時間, 標題, 說明, 按鈕或地圖位置, 費用])
       const days = [
         {d:"10/9 五",t:"台北 → 東京",e:4500,i:[
@@ -503,20 +515,11 @@
           ["20:00","晚餐：烤肉激素 新井屋 Hanare","已預約；預約資料請查看私人確認信",[["📍 導航",MAPS_BASE+"gF3q2VYCD7D9GPaz5",""]],"約 ¥14,000"],
           ["22:00","澀谷 → 錦糸町回飯店","半藏門線｜約 30–35 分（另加候車步行）",MAPS_BASE+"xPGcDREthQXhSW7x7","約 ¥280/人"]
         ]},
-        {d:"10/11 日",t:"飯店早餐 / 池袋 Keroro → 出雲",e:12000,w:"行李首選寄池袋站東口（北），滿櫃改 Sunshine City B1。13:00 離開商場、13:30 前搭車，目標 15:00 前抵羽田 T1。",i:[
-          ["09:00–09:15","起床、梳洗","行李已整理好，梳洗後下樓吃早餐。"],
-          ["09:15–09:55","飯店早餐：四季百選","飯店 1 樓；早餐 06:30–10:00，最後入場 09:30。若住宿未含早餐，成人 ¥1,900／人。",[["🍳 早餐資訊","https://sotetsu-hotels.com/fresa-inn/kinshicho/cuisine/","r"]]],
         {d:"10/11 日",t:"Komeda 早午餐 / 池袋 Keroro → 出雲",e:12000,w:"行李首選寄池袋站東口（北），滿櫃改 Sunshine City B1。13:10 離開商場、13:40 左右搭車，目標 15:00 左右抵羽田 T1。",i:[
           ["09:00–09:50","悠哉起床、梳洗與最後檢查","不吃飯店早餐，行李已整理好；出門前確認護照、手機、錢包、房卡與所有行李。"],
           ["10:00","退房，帶行李前往錦糸町站","今天行李帶去池袋，不寄放飯店。"],
           ["10:10–10:55 預估","錦糸町 → 池袋","JR 總武線各站停車往秋葉原；轉山手線往上野、池袋方向。含候車、轉乘抓約 40–45 分鐘；依當天導航調整。",[["🚆 到池袋站","https://www.google.com/maps/dir/?api=1&origin=%E9%8C%A6%E7%B3%B8%E7%94%BA%E9%A7%85&destination=%E6%B1%A0%E8%A2%8B%E9%A7%85&travelmode=transit","r"]]],
           ["10:55–11:10","🧳 寄行李：池袋站東口（北）PARCO 前","首選：JR 北改札外，沿「東口（北）／PARCO／いけふくろう」指標，找貓頭鷹雕像附近階梯後方的置物櫃室。有 L 型櫃，06:00–22:00；實際空位、尺寸與價格以查詢頁／現場為準。拍下櫃號、周圍地標，保留取件憑證。找櫃最多 15 分鐘，滿櫃就用下方 Sunshine City 備案。",[["🧳 池袋站櫃位／預約","https://multiecube.com/station/35","r"],["📍 官方位置圖","https://media.jreast.co.jp/articles/5026","r"]]],
-          ["11:10–11:30","步行 → Sunshine City","從池袋東口步行前往，預留約 20 分鐘。若車站櫃滿，先到 Sunshine City B1 地下通道／alpa B1 広小路寄行李，再逛店。",[["🚶 到商場","https://www.google.com/maps/dir/?api=1&origin=%E6%B1%A0%E8%A2%8B%E9%A7%85+%E6%9D%B1%E5%8F%A3&destination=%E3%82%B5%E3%83%B3%E3%82%B7%E3%83%A3%E3%82%A4%E3%83%B3%E3%82%B7%E3%83%86%E3%82%A3&travelmode=walking","r"]]],
-          ["11:30–12:20","Keroro 軍曹「ケロッ！とマート」","World Import Mart 大樓 3 樓，Bandai Namco Cross Store 東京內；10:00–21:00。優先逛 Keroro，有時間再看其他商店。",[["🐸 官方店資訊","https://bandainamco-am.co.jp/official_shop/keroro-mart/","r"],["📍 Cross Store 位置","バンダイナムコ Cross Store 東京",""]]],
-          ["12:20–13:00","午餐：Sunshine City 內就近用餐","不安排藏壽司，選不用久候的餐廳；13:00 前結束用餐。","","約 ¥3,000（兩人估算）"],
-          ["13:00–13:25","🧳 回池袋站、取行李、進站","若寄車站：走回東口（北）PARCO 前的原櫃位取件，再進 JR 改札。若寄 Sunshine City：13:00 先在商場取件，再走回池袋站。務必帶好所有行李，預留進站與找月台時間。",[["🚶 回池袋站","https://www.google.com/maps/dir/?api=1&origin=%E3%82%B5%E3%83%B3%E3%82%B7%E3%83%A3%E3%82%A4%E3%83%B3%E3%82%B7%E3%83%86%E3%82%A3&destination=%E6%B1%A0%E8%A2%8B%E9%A7%85+%E6%9D%B1%E5%8F%A3&travelmode=walking","r"]]],
-          ["13:30 前","池袋 → 品川 → 羽田機場 T1","山手線內回り往新宿、澀谷、品川；品川轉京急往「羽田空港第1・第2ターミナル」。不要在第3航廈下車。站到站約 55–70 分鐘估算，另留走到出發大廳時間；出發前確認即時班次。",[["✈️ 前往羽田 T1","https://www.google.com/maps/dir/?api=1&origin=%E6%B1%A0%E8%A2%8B%E9%A7%85&destination=%E7%BE%BD%E7%94%B0%E7%A9%BA%E6%B8%AF%E7%AC%AC1%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB&travelmode=transit","r"]]],
-          ["14:30–14:45 預估","抵達羽田 T1，JAL 南翼報到／托運","目標 15:00 前到出發大廳。第1航廈 2 樓，JAL 南翼；航班時間與報到資訊以機票／JAL 當日通知為準，訂位資料請查看私人確認信。","羽田空港第1ターミナル"],
           ["11:10–11:30","步行 → Sunshine City","池袋站寄好行李後，從東口步行到 Sunshine City。若車站置物櫃滿，先在商場 B1 寄件，再前往 Komeda。",[["🚶 到商場","https://www.google.com/maps/dir/?api=1&origin=池袋駅東口&destination=サンシャインシティ&travelmode=walking","r"]]],
           ["11:30–12:00","早午餐：Komeda 珈琲","珈琲所 コメダ珈琲店，Sunshine City alpa B1。營業時間 07:00–22:00（最後點餐 21:30）；吃完再去逛 Keroro。這個時段按一般菜單點餐，早餐優惠供應時間請向店家確認。若需候位，縮短後續逛店時間，保留 13:10 離開商場的安排。",[["☕ 店家資訊／位置圖","https://sunshinecity.jp/restaurant/restaurant_list/entry-36817.html","r"],["📍 Komeda 導航","コメダ珈琲店 サンシャインシティアルパ店",""]]],
           ["12:00–13:05","Keroro 軍曹「ケロッ！とマート」","World Import Mart 大樓 3 樓，Bandai Namco Cross Store 東京內；10:00–21:00。從 alpa B1 吃完前往此區，含找路與上樓時間；優先逛 Keroro，有時間再看其他商店。",[["🐸 官方店資訊","https://bandainamco-am.co.jp/official_shop/keroro-mart/","r"],["📍 Cross Store 位置","バンダイナムコ Cross Store 東京",""]]],
@@ -569,6 +572,7 @@
           ["12:00","CI153 報到托運","14:00 起飛，16:00 抵桃園",[]]
         ]}
       ];
+
       // 交通資料
       const transports = [
         ["Day1","成田 T2 → 錦糸町","京成 Access Express＋半藏門線","75–90 分","¥1,500",MAPS_BASE+"6ZXdDjkR63xLUjBG8"],
@@ -576,7 +580,6 @@
         ["Day2","南町田 → 澀谷","田園都市線","40 分","¥340",MAPS_BASE+"gF3q2VYCD7D9GPaz5"],
         ["Day2","澀谷 → 錦糸町","半藏門線","約 30–35 分（另加候車步行）","¥280",MAPS_BASE+"xPGcDREthQXhSW7x7"],
         ["Day3", "錦糸町 → 池袋", "總武線各站停車→秋葉原→山手線", "含候車轉乘約 40–45 分", "依當天路線", "https://www.google.com/maps/dir/?api=1&origin=%E9%8C%A6%E7%B3%B8%E7%94%BA%E9%A7%85&destination=%E6%B1%A0%E8%A2%8B%E9%A7%85&travelmode=transit"],
-        ["Day3", "池袋 → 羽田 T1（13:30 前搭車）", "山手線內回り→品川→京急", "站到站約 55–70 分，另留步行時間", "依當天路線", "https://www.google.com/maps/dir/?api=1&origin=%E6%B1%A0%E8%A2%8B%E9%A7%85&destination=%E7%BE%BD%E7%94%B0%E7%A9%BA%E6%B8%AF%E7%AC%AC1%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB&travelmode=transit"],
         ["Day3", "池袋 → 羽田 T1（13:40 左右搭車）", "山手線內回り→品川→京急", "站到站約 55–70 分，另留步行時間", "依當天路線", "https://www.google.com/maps/dir/?api=1&origin=%E6%B1%A0%E8%A2%8B%E9%A7%85&destination=%E7%BE%BD%E7%94%B0%E7%A9%BA%E6%B8%AF%E7%AC%AC1%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB&travelmode=transit"],
         ["Day3","羽田 → 出雲（JAL）","飛機 16:55→18:25","1.5 小時","已付",""],
         ["Day3","出雲機場 → 出雲市站","機場巴士","25–30 分","¥630",MAPS_BASE+"sq7XJ6ftJ9uN3qAo9"],
@@ -588,12 +591,14 @@
         ["Day5","出雲 → 大阪伊丹（JAL）","飛機 16:00→16:45","45 分","已付",""],
         ["Day8","難波 → 關西機場","南海電鐵","40–50 分","¥970–1,500",""]
       ];
+
       // 住宿資料
       const hotels = [
         ["10/9, 10/10（2 晚）","相鐵 Fresa Inn 東京錦糸町","東京都墨田区江東橋2-18-7｜JR 錦糸町站南口步行約 3 分｜Klook 訂｜¥56,602｜入住 15:00／退房 11:00","相鉄フレッサイン東京錦糸町 東京都墨田区江東橋2-18-7"],
         ["10/11, 10/12（2 晚）","出雲 Dormy Inn","近 JR 出雲市站｜樂天旅遊｜NT$11,671｜大浴場、夜鳴拉麵","ドーミーイン出雲"],
         ["10/13–10/15（3 晚）","Via Inn Prime Shinsaibashi Yotsubashi","心齋橋／四橋｜Booking｜¥39,976","Via Inn Prime Shinsaibashi Yotsubashi"]
       ];
+
       // 行李資料
       const packing = [
         ["證件","護照（效期 6 個月以上）","Visit Japan Web QR","電子機票／登機證","訂房與 KKday 憑證（離線存檔）"],
@@ -603,26 +608,33 @@
         ["衣物","薄外套＋防雨外套","洋蔥式穿搭（15–24°C）","折傘","海邊保暖圍巾"],
         ["雜物","個人藥品、OK 繃","防曬","環保袋","折疊後背包","旅平險保單確認"]
       ];
+
       // 預算資料
       const budgets = [
         ["機票（華航）","NT$31,218"],["國內線 東京→出雲","NT$10,486"],["國內線 出雲→大阪","NT$6,970"],
         ["出雲住宿","NT$11,671"],["Snoopy 博物館","NT$880"],["天橋立一日遊","NT$4,123"],
         ["去程計程車","NT$950"],["旅平險","NT$597"],["東京住宿","¥56,602"],["大阪住宿","¥39,976"]
       ];
+
       const navs = [["📅","行程"],["🚆","交通"],["🏨","住宿"],["🎒","行李"],["💰","預算"]];
+
       const currentDayData = computed(() => days[cur.value]);
       const totalBudget = computed(() => days.reduce((a, d) => a + d.e, 0));
       const maxBudget = computed(() => Math.max(...days.map(d => d.e)));
+
       const isHttp = (url) => /^http/.test(url);
       const getMapUrl = (x) => isHttp(x) ? x : "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(x);
+
       const setCur = (i) => {
         cur.value = i;
         window.scrollTo(0, 0);
       };
+
       const setTab = (i) => {
         tab.value = i;
         window.scrollTo(0, 0);
       };
+
       onMounted(() => {
         try {
           const saved = JSON.parse(localStorage.getItem("pk") || "{}");
@@ -631,6 +643,7 @@
           console.error(e);
         }
       });
+
       watch(pk, (newPk) => {
         try {
           localStorage.setItem("pk", JSON.stringify(newPk));
@@ -638,6 +651,7 @@
           console.error(e);
         }
       }, { deep: true });
+
       return {
         cloudUser, memberName, memberReady, cloudAvailable, cloudError, cloudStatus, login,
         authBusy, busy, loading, expenses, totals, categories, expenseForm, editing,
@@ -650,5 +664,6 @@
     }
   }).mount('#app');
 </script>
+
 </body>
 </html>
